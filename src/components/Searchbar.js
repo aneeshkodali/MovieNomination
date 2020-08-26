@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Searchbar = () => {
+const Searchbar = ({ onFormSubmit }) => {
 
     // state for term
     const [term, setTerm] = useState('');
@@ -9,7 +9,7 @@ const Searchbar = () => {
     const onSubmit = (event) => {
         // prevent page from refreshing
         event.preventDefault();
-        console.log('submitted', term)
+        onFormSubmit(term);
     }
 
     return (
