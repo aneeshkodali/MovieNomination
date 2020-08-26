@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Searchbar from './Searchbar';
+import MovieList from './MovieList';
 import omdbUrl from '../apis/omdb';
 import axios from 'axios';
 
 const App = () => {
+
+    // state for movie list
+    const [movieList, setMovieList] = useState([]);
+
+    // state for search term
+    const [searchTerm, setSearchTerm] = useState('');
 
 
     // function to search for movie term
@@ -16,10 +23,14 @@ const App = () => {
             }
         });
 
-        // parse out the data
+        // get data from api response
         const { data } = response;
 
-        console.log(data.Search);
+        // update movie list
+        setMovieList(data.Search);
+
+        // update search term
+        setSearchTerm(term);
     };
 
 
@@ -27,6 +38,10 @@ const App = () => {
         <div>
             <h1>Shoppies App</h1>
             <Searchbar onFormSubmit={search} />
+            <MovieList 
+                searchTerm={searchTerm}
+                movieList={movieList}
+            />
         </div>
     );
 };
