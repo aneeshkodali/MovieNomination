@@ -24,7 +24,6 @@ const Searchbar = ({ onSearch }) => {
     return (
         <div className="ui search">
             <div className="ui icon input">
-                {/*<label>Search for a movie</label>*/}
                 <input
                     type="text"
                     value={term}

@@ -76,17 +76,17 @@ const App = () => {
 
 
     return (
-        <div className="ui container">
+        <div>
             <h1>The Shoppies Nomination Page</h1>
           
                 <Searchbar onSearch={search} />
 
-            <div className="ui two column grid">
+            <div className="ui grid">
 
                 {/*movie list from search results*/}
-                <div id="movie-search-list" className="column">
+                <div id="movie-search-list" className="six wide column">
+                    <h3>{resultMessage}</h3>
                     <MovieList 
-                        resultMessage={resultMessage}
                         movieList={movieSearchList}
                         movieButtonText='Nominate'
                         movieButtonClick={movie => setMovieNominationList([...movieNominationList, movie])}
@@ -94,14 +94,27 @@ const App = () => {
                 </div>
 
                 {/*movie list from nominations*/}
-                <div id="movie-nomination-list" className="column">
-                    <button onClick={() => setMovieNominationList([])}>Reset Nominations</button>
+                <div id="movie-nomination-list" className="six wide column">
+                    <h3 
+                        style={{display:"inline-block", marginRight:"10px"}}
+                    >
+                        {`Nominations (${numNominationsRemaining} Left)`}
+                    </h3>
+                    <button 
+                        onClick={() => setMovieNominationList([])}
+                    >
+                        Reset
+                    </button>
                    <MovieList
-                        resultMessage={`Nominations (${numNominationsRemaining} Remaining)`}
                         movieList={movieNominationList}
                         movieButtonText='Remove'
                         movieButtonClick={movie => setMovieNominationList(movieNominationList.filter(m => m !== movie))}
                     />
+                </div>
+
+                {/*select/add nomination lists*/}
+                <div className="4 wide column">
+                    FORM WILL GO HERE
                 </div>
 
             </div>
