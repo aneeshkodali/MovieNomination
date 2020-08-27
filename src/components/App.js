@@ -31,8 +31,6 @@ const App = () => {
             setMovieSearchList([]);
             return;
         };
-        //setResultMessage(`Results for: "${term}"`);
-        //setMovieSearchList(seedMovieList);
 
         // make request
         const response = await axios.get(omdbUrl,{
@@ -46,20 +44,16 @@ const App = () => {
         // handle bad api requests
         if (response.data.Error) {
             // show error in search result message 
-            setResultMessage(`${response.data.Error} Please try another search term.`);
-            
+            setResultMessage(`${response.data.Error}`);
             // set movie list to empty array
             setMovieSearchList([]);
            
         } else {
             // otherwise if good request, change states
-
             // get data from api response
              const { data } = response;
-
              // update movie list
              setMovieSearchList(data.Search);
- 
              // update search result message
              setResultMessage(`Results for: "${term}"`);
         }
@@ -71,19 +65,25 @@ const App = () => {
         return button;
     };
 
-    // useEffect to set buttons
+    // useEffect to set buttons state when results change or nominations change
     useEffect(() => {
 
+        // initialize array of new buttons
         const buttonsNew = [];
+        // loop through each movie in the search list
         movieSearchList.forEach(movie => {
+            // get the button element
             const button = findButton(movie);
-            if (numNominationsRemaining <= 0 || movieNominationList.includes(movie)) {
+           // gray out button if # of nominations exceeded or movie already nominated
+            if (numNominationsRemaining <= 0 || movieNominationList.map(m => m.imdbID).includes(movie.imdbID)) {
                 button.disabled = true;
             } else {
                 button.disabled = false;
             }
+            // add button to array
             buttonsNew.push(button);
         });
+        // set state of new buttons
         setButtons(buttonsNew);
     }, [movieSearchList, movieNominationList]);
 
@@ -112,6 +112,7 @@ const App = () => {
                 <Searchbar onSearch={search} />
 
             <div className="ui two column grid">
+
                 {/*movie list from search results*/}
                 <div id="movie-search-list" className="column">
                     <MovieList 
@@ -121,6 +122,7 @@ const App = () => {
                         movieButtonClick={nominateMovie}
                     />
                 </div>
+
                 {/*movie list from nominations*/}
                 <div id="movie-nomination-list" className="column">
                    <MovieList
@@ -130,7 +132,9 @@ const App = () => {
                         movieButtonClick={removeNominatedMovie}
                     />
                 </div>
+                
             </div>
+
         </div>
     );
 };
