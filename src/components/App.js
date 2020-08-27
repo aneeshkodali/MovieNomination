@@ -15,6 +15,10 @@ const App = () => {
     // state for search result message
     const [resultMessage, setResultMessage] = useState('');
 
+    // state for number of remaining entries
+    const MAX_NOMINATIONS = 5;
+    const [numNominationsRemaining, setNumNominationsRemaining] = useState(MAX_NOMINATIONS);
+
     // seed data (delete later)
     const title = "Captain America";
     const poster = 'https://m.media-amazon.com/images/M/MV5BMzA2NDkwODAwM15BMl5BanBnXkFtZTgwODk5MTgzMTE@._V1_.jpg';
@@ -87,12 +91,18 @@ const App = () => {
 
     // function to add a movie to the nomination list
     const nominateMovie = (movie) => {
-        // add movie to nominationlist
-        const movieNominationListNew=[...movieNominationList, movie]
-        setMovieNominationList(movieNominationListNew);
-        // disable nomination button
+        // find button
         const button = getNominateButton(movie);
-        button.disabled=true;
+        if (numNominationsRemaining > 0) {
+            // add movie to nominationlist
+            const movieNominationListNew=[...movieNominationList, movie]
+            setMovieNominationList(movieNominationListNew);
+            // update number of entries
+            setNumNominationsRemaining(numNominationsRemaining-1);
+            // disable nomination button
+            button.disabled=true;
+        }
+        
     }
 
     // function to remove movie from nomination list
@@ -100,6 +110,8 @@ const App = () => {
         // update list of nominated movies
         const movieNominationListNew = movieNominationList.filter(m => m !== movie);
         setMovieNominationList(movieNominationListNew);
+        // update number of entries
+        setNumNominationsRemaining(numNominationsRemaining+1);
         // enable nomination button
         const button = getNominateButton(movie);
         button.disabled=false;
@@ -126,7 +138,7 @@ const App = () => {
                 {/*movie list from nominations*/}
                 <div id="movie-nomination-list" className="column">
                    <MovieList
-                        resultMessage='Nomination List'
+                        resultMessage={`Nominations (${numNominationsRemaining} Remaining)`}
                         movieList={movieNominationList}
                         movieButtonText='Remove'
                         movieButtonClick={removeNominatedMovie}
