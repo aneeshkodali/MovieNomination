@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Searchbar from './Searchbar';
 import MovieList from './MovieList';
 import omdbUrl from '../apis/omdb';
@@ -12,6 +12,9 @@ const App = () => {
     // state for nomination list
     const [movieNominationList, setMovieNominationList] = useState([]);
 
+    // state for buttons
+    const [buttons, setButtons] = useState([]);
+
     // state for search result message
     const [resultMessage, setResultMessage] = useState('');
 
@@ -19,104 +22,87 @@ const App = () => {
     const MAX_NOMINATIONS = 5;
     const [numNominationsRemaining, setNumNominationsRemaining] = useState(MAX_NOMINATIONS);
 
-    // seed data (delete later)
-    const title = "Captain America";
-    const poster = 'https://m.media-amazon.com/images/M/MV5BMzA2NDkwODAwM15BMl5BanBnXkFtZTgwODk5MTgzMTE@._V1_.jpg';
-    let year = 2011;
-    let i = 1;
-    const seedMovieList = [];
-    while (i <= 10) {
-        let movieObj = {
-            Title: `${title}: ${i}`,
-            Year: year,
-            imdbID: i,
-            Poster: poster
-        };
-        seedMovieList.push(movieObj);
-        i++;
-        year++;
-    };
-
-
 
     // function to search for movie term
     const search = async term => {
         // prevent api request with blank string
         if (!term) {
+            setResultMessage('');
+            setMovieSearchList([]);
             return;
         };
-        setResultMessage(`Results for: "${term}"`);
-        setMovieSearchList(seedMovieList);
+        //setResultMessage(`Results for: "${term}"`);
+        //setMovieSearchList(seedMovieList);
 
-        //// make request
-        //const response = await axios.get(omdbUrl,{
-        //    params: {
-        //        type: 'movie',
-        //        r: 'json',
-        //        s: term
-        //    }
-        //});
+        // make request
+        const response = await axios.get(omdbUrl,{
+            params: {
+                type: 'movie',
+                r: 'json',
+                s: term
+            }
+        });
 
-        //// handle bad api requests
-        //if (response.data.Error) {
-        //    // show error in search result message 
-        //    setResultMessage(`${response.data.Error} Please try another search term.`);
+        // handle bad api requests
+        if (response.data.Error) {
+            // show error in search result message 
+            setResultMessage(`${response.data.Error} Please try another search term.`);
             
-        //    // set movie list to empty array
-        //    setMovieList([]);
+            // set movie list to empty array
+            setMovieSearchList([]);
            
-        //} else {
-        //    // otherwise if good request, change states
+        } else {
+            // otherwise if good request, change states
 
-        //    // get data from api response
-        //     const { data } = response;
+            // get data from api response
+             const { data } = response;
 
-        //     // update movie list
-        //     setMovieList(data.Search);
+             // update movie list
+             setMovieSearchList(data.Search);
  
-        //     // update search result message
-        //     setResultMessage(`Results for: "${term}"`);
-        //}
+             // update search result message
+             setResultMessage(`Results for: "${term}"`);
+        }
     };
 
-    // function to find nomination button for particular movie
-    // button disability will be toggled based on whether or not movie is in nomination list (see below functions)
-    const getNominateButton = movie => {
-        // find div for given movie using the imdbID in classes
-        const movieDiv = document.querySelector(`#movie-search-list .\\3${movie.imdbID}`);
-        // find button inside div
-        const button = movieDiv.querySelector('button');
+    // function to find button for given movie
+    const findButton = (movie) => {
+        const button = document.querySelector(`#movie-search-list div.item.${movie.imdbID} button`);
         return button;
-    }
+    };
+
+    // useEffect to set buttons
+    useEffect(() => {
+
+        const buttonsNew = [];
+        movieSearchList.forEach(movie => {
+            const button = findButton(movie);
+            if (numNominationsRemaining <= 0 || movieNominationList.includes(movie)) {
+                button.disabled = true;
+            } else {
+                button.disabled = false;
+            }
+            buttonsNew.push(button);
+        });
+        setButtons(buttonsNew);
+    }, [movieSearchList, movieNominationList]);
+
 
     // function to add a movie to the nomination list
     const nominateMovie = (movie) => {
-        // find button
-        const button = getNominateButton(movie);
-        if (numNominationsRemaining > 0) {
-            // add movie to nominationlist
-            const movieNominationListNew=[...movieNominationList, movie]
-            setMovieNominationList(movieNominationListNew);
-            // update number of entries
-            setNumNominationsRemaining(numNominationsRemaining-1);
-            // disable nomination button
-            button.disabled=true;
-        }
-        
-    }
+       // update nomination list
+        setMovieNominationList([...movieNominationList, movie]);
+        // update number of entries
+        setNumNominationsRemaining(numNominationsRemaining-1);
+    };
 
     // function to remove movie from nomination list
     const removeNominatedMovie = (movie) => {
-        // update list of nominated movies
-        const movieNominationListNew = movieNominationList.filter(m => m !== movie);
-        setMovieNominationList(movieNominationListNew);
+        // update nomination list
+        setMovieNominationList(movieNominationList.filter(m => m !== movie));
         // update number of entries
         setNumNominationsRemaining(numNominationsRemaining+1);
-        // enable nomination button
-        const button = getNominateButton(movie);
-        button.disabled=false;
-
-    }
+    };
 
 
     return (
