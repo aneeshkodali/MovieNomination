@@ -6,12 +6,26 @@ const Movie = ({ movie, buttonText, buttonClick }) => {
     const { Title, Year, Poster } = movie;
 
     return (
-        <div>
-            {/*<img src={Poster} alt={Title} />*/}
-            {`${Title} (${Year})`}
-            <button onClick={buttonClick}>{buttonText}</button>
-        </div>
+        <React.Fragment>
+            <div className="image">
+                <img src={Poster} alt={Title} />
+            </div>
+            <div className="content">
+                <div className="header">{`${Title} (${Year})`}</div>
+                <div className="extra">
+                    <div className="extra">
+                       <button
+                            className="ui floated primary button"
+                            onClick={buttonClick}
+                        >
+                            {buttonText}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </React.Fragment>
     );
 };
 
 export default Movie;
+

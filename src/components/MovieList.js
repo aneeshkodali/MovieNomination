@@ -10,19 +10,23 @@ const MovieList = ({ resultMessage, movieList }) => {
     // create array of movie components
     const moviesRendered = movieList.map(movie => {
         return (
-            <Movie 
+            <div 
+                className="item"
                 key={movie.imdbID} 
+            >
+                <Movie 
                 movie={movie}
                 buttonText='Nominate'
                 buttonClick={nominateMovie}
-            />
+                />
+            </div>
         )
     });
     
 
     return (
-        <div>
-            {resultMessage}
+        <div className="ui divided items">
+            <h3>{resultMessage}</h3>
             {moviesRendered}
         </div>
     );
