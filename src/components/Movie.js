@@ -1,29 +1,28 @@
 import React from 'react';
 
-const Movie = ({ movie, buttonText, buttonClick }) => {
+const Movie = ({ movie, movieButtonText, movieButtonClick }) => {
 
     // extract keys from movie object
     const { Title, Year, Poster } = movie;
 
+
     return (
-        <React.Fragment>
+        <div className="item">
             <div className="image">
                 <img src={Poster} alt={Title} />
             </div>
             <div className="content">
                 <div className="header">{`${Title} (${Year})`}</div>
                 <div className="extra">
-                    <div className="extra">
-                       <button
-                            className="ui floated primary button"
-                            onClick={buttonClick}
-                        >
-                            {buttonText}
-                        </button>
-                    </div>
+                    <button
+                        onClick={()=>movieButtonClick(movie)}
+                        className="ui primary button"
+                    >
+                        {movieButtonText}
+                    </button>
                 </div>
             </div>
-        </React.Fragment>
+        </div>
     );
 };
 

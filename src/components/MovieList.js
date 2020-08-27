@@ -1,25 +1,19 @@
 import React from 'react';
 import Movie from './Movie';
 
-const MovieList = ({ resultMessage, movieList }) => {
+const MovieList = ({ resultMessage, movieList, movieButtonText, movieButtonClick }) => {
 
-    const nominateMovie = (event) => {
-        console.log(event)
-    }
 
     // create array of movie components
     const moviesRendered = movieList.map(movie => {
         return (
-            <div 
-                className="item"
-                key={movie.imdbID} 
-            >
                 <Movie 
+                key={movie.imdbID}
                 movie={movie}
-                buttonText='Nominate'
-                buttonClick={nominateMovie}
+                movieButtonText={movieButtonText}
+                movieButtonClick={movieButtonClick}
                 />
-            </div>
+  
         )
     });
     
