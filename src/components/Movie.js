@@ -3,11 +3,10 @@ import React from 'react';
 const Movie = ({ movie, movieButtonText, movieButtonClick }) => {
 
     // extract keys from movie object
-    const { Title, Year, Poster } = movie;
-
+    const { Title, Year, Poster, imdbID } = movie;
 
     return (
-        <div className="item">
+        <div className={`item ${imdbID}`}>
             <div className="image">
                 <img src={Poster} alt={Title} />
             </div>
@@ -16,7 +15,7 @@ const Movie = ({ movie, movieButtonText, movieButtonClick }) => {
                 <div className="extra">
                     <button
                         onClick={()=>movieButtonClick(movie)}
-                        className="ui primary button"
+                        className="ui button"
                     >
                         {movieButtonText}
                     </button>

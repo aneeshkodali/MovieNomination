@@ -75,30 +75,47 @@ const App = () => {
         //}
     };
 
+    // function to find nomination button for particular movie
+    // button disability will be toggled based on whether or not movie is in nomination list (see below functions)
+    const getNominateButton = movie => {
+        // find div for given movie using the imdbID in classes
+        const movieDiv = document.querySelector(`#movie-search-list .\\3${movie.imdbID}`);
+        // find button inside div
+        const button = movieDiv.querySelector('button');
+        return button;
+    }
+
     // function to add a movie to the nomination list
     const nominateMovie = (movie) => {
         // add movie to nominationlist
         const movieNominationListNew=[...movieNominationList, movie]
         setMovieNominationList(movieNominationListNew);
+        // disable nomination button
+        const button = getNominateButton(movie);
+        button.disabled=true;
     }
 
     // function to remove movie from nomination list
     const removeNominatedMovie = (movie) => {
         // update list of nominated movies
-        const movieNominationListNew = movieNominationList.filter(m => m!== movie);
+        const movieNominationListNew = movieNominationList.filter(m => m !== movie);
         setMovieNominationList(movieNominationListNew);
+        // enable nomination button
+        const button = getNominateButton(movie);
+        button.disabled=false;
+
     }
 
 
     return (
-        <div>
+        <div className="ui container">
             <h1>The Shoppies Nomination Page</h1>
           
                 <Searchbar onSearch={search} />
 
             <div className="ui two column grid">
                 {/*movie list from search results*/}
-                <div className="column">
+                <div id="movie-search-list" className="column">
                     <MovieList 
                         resultMessage={resultMessage}
                         movieList={movieSearchList}
@@ -107,7 +124,7 @@ const App = () => {
                     />
                 </div>
                 {/*movie list from nominations*/}
-                <div className="column">
+                <div id="movie-nomination-list" className="column">
                    <MovieList
                         resultMessage='Nomination List'
                         movieList={movieNominationList}
