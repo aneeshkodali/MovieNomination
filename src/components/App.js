@@ -15,31 +15,38 @@ const App = () => {
     const seedMovieList = [
         {
             Title: 'Captain America: 1',
-            Year: 2011
+            Year: 2011,
+            imdbID: 1
         },
         {
             Title: 'Captain America: 2',
-            Year: 2012
+            Year: 2012,
+            imdbID: 2
         },
         {
             Title: 'Captain America: 3',
-            Year: 2013
+            Year: 2013,
+            imdbID: 3
         },
         {
             Title: 'Captain America: 4',
-            Year: 2014
+            Year: 2014,
+            imdbID: 4
         },
         {
             Title: 'Captain America: 5',
-            Year: 2015
+            Year: 2015,
+            imdbID: 5
         },
         {
             Title: 'Captain America: 6',
-            Year: 2016
+            Year: 2016,
+            imdbID: 6
         },
         {
             Title: 'Captain America: 7',
-            Year: 2017
+            Year: 2017,
+            imdbID: 7
         }
     ]
 
@@ -88,17 +95,18 @@ const App = () => {
     return (
         <div>
             <h1>The Shoppies Nomination Page</h1>
-            <Searchbar onSearch={search} />
-            <div className="ui two column grid">
+          
+                <Searchbar onSearch={search} />
+            
                 <MovieList 
                     resultMessage={resultMessage}
                     movieList={movieList}
                 />
+
                 <MovieList 
                     resultMessage={resultMessage}
                     movieList={movieList}
                 />
-            </div>
         </div>
     );
 };

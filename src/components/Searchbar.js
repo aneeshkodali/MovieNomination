@@ -22,13 +22,17 @@ const Searchbar = ({ onSearch }) => {
     }, [debouncedTerm])
 
     return (
-        <div>
-            <label>Search for a movie</label>
-            <input
-                type="text"
-                value={term}
-                onChange={(e) => setTerm(e.target.value)}
-            />
+        <div className="ui search">
+            <div className="ui icon input">
+                {/*<label>Search for a movie</label>*/}
+                <input
+                    type="text"
+                    value={term}
+                    placeholder="Enter a term..."
+                    onChange={(e) => setTerm(e.target.value)}
+                />
+                <i className="search icon" />
+            </div>
         </div>
     );
 };
