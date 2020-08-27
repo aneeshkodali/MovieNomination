@@ -1,27 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const Searchbar = ({ onFormSubmit }) => {
+const Searchbar = ({ onSearch }) => {
 
     // state for term
     const [term, setTerm] = useState('');
+    const [debouncedTerm, setDebouncedTerm] = useState(term);
 
-    // function to handle search form submission
-    const onSubmit = (event) => {
-        // prevent page from refreshing
-        event.preventDefault();
-        onFormSubmit(term);
-    }
+     // useEffect to set debouncedTerm equal to term after x ms of non-typing
+     useEffect(() => {
+        const timerId = setTimeout(() => {
+            setDebouncedTerm(term);
+        }, 1000);
+        return () => {
+            clearTimeout(timerId);
+        };
+    }, [term]);
+
+    // useEffct to perform search on debounced term
+    useEffect(() => {
+        onSearch(debouncedTerm);
+    }, [debouncedTerm])
 
     return (
         <div>
-            <form onSubmit={onSubmit}>
-                <label>Search for a movie</label>
-                <input
-                    type="text"
-                    value={term}
-                    onChange={(e) => setTerm(e.target.value)}
-                />
-            </form>
+            <label>Search for a movie</label>
+            <input
+                type="text"
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
+            />
         </div>
     );
 };

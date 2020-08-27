@@ -9,37 +9,54 @@ const App = () => {
     // state for movie list
     const [movieList, setMovieList] = useState([]);
 
-    // state for search term
-    const [searchTerm, setSearchTerm] = useState('');
+    // state for search result message
+    const [resultMessage, setResultMessage] = useState('');
 
 
     // function to search for movie term
     const search = async term => {
+        // prevent api request with blank string
+        if (!term) {
+            return;
+        };
         // make request
         const response = await axios.get(omdbUrl,{
             params: {
                 type: 'movie',
+                r: 'json',
                 s: term
             }
         });
 
-        // get data from api response
-        const { data } = response;
+        // handle bad api requests
+        if (response.data.Error) {
+            // show error in search result message 
+            setResultMessage(`${response.data.Error} Please try another search term.`);
+            
+            // set movie list to empty array
+            setMovieList([]);
+           
+        } else {
+            // otherwise if good request, change states
 
-        // update movie list
-        setMovieList(data.Search);
+            // get data from api response
+             const { data } = response;
 
-        // update search term
-        setSearchTerm(term);
+             // update movie list
+             setMovieList(data.Search);
+ 
+             // update search result message
+             setResultMessage(`Results for: "${term}"`);
+        }
     };
 
 
     return (
         <div>
             <h1>Shoppies App</h1>
-            <Searchbar onFormSubmit={search} />
+            <Searchbar onSearch={search} />
             <MovieList 
-                searchTerm={searchTerm}
+                resultMessage={resultMessage}
                 movieList={movieList}
             />
         </div>

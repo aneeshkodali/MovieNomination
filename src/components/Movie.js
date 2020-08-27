@@ -7,7 +7,7 @@ const Movie = ({ movie }) => {
 
     return (
         <div>
-            <img src={Poster} alt={Title} />
+            {/*<img src={Poster} alt={Title} />*/}
             {`${Title} (${Year})`}
             <button>Nominate</button>
         </div>

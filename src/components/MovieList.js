@@ -1,7 +1,7 @@
 import React from 'react';
 import Movie from './Movie';
 
-const MovieList = ({ searchTerm, movieList }) => {
+const MovieList = ({ resultMessage, movieList }) => {
 
     // create array of movie components
     const moviesRendered = movieList.map(movie => {
@@ -13,7 +13,7 @@ const MovieList = ({ searchTerm, movieList }) => {
 
     return (
         <div>
-           {`Results for ${searchTerm}`}
+            {resultMessage}
             {moviesRendered}
         </div>
     );
