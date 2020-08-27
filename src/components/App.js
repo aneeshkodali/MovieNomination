@@ -8,20 +8,15 @@ const App = () => {
 
     // state for movie search list
     const [movieSearchList, setMovieSearchList] = useState([]);
-
     // state for nomination list
     const [movieNominationList, setMovieNominationList] = useState([]);
-
     // state for buttons
     const [buttons, setButtons] = useState([]);
-
     // state for search result message
     const [resultMessage, setResultMessage] = useState('');
-
     // state for number of remaining entries
     const MAX_NOMINATIONS = 5;
-    const [numNominationsRemaining, setNumNominationsRemaining] = useState(MAX_NOMINATIONS);
-
+    const numNominationsRemaining = MAX_NOMINATIONS - movieNominationList.length;
 
     // function to search for movie term
     const search = async term => {
@@ -47,7 +42,6 @@ const App = () => {
             setResultMessage(`${response.data.Error}`);
             // set movie list to empty array
             setMovieSearchList([]);
-           
         } else {
             // otherwise if good request, change states
             // get data from api response
@@ -59,23 +53,16 @@ const App = () => {
         }
     };
 
-    // function to find button for given movie
-    const findButton = (movie) => {
-        const button = document.querySelector(`#movie-search-list div.item.${movie.imdbID} button`);
-        return button;
-    };
-
     // useEffect to set buttons state when results change or nominations change
     useEffect(() => {
-
         // initialize array of new buttons
         const buttonsNew = [];
         // loop through each movie in the search list
-        movieSearchList.forEach(movie => {
+        movieSearchList.forEach(({ imdbID }) => {
             // get the button element
-            const button = findButton(movie);
+            const button = document.querySelector(`#movie-search-list div.item.${imdbID} button`);
            // gray out button if # of nominations exceeded or movie already nominated
-            if (numNominationsRemaining <= 0 || movieNominationList.map(m => m.imdbID).includes(movie.imdbID)) {
+            if (numNominationsRemaining <= 0 || movieNominationList.map(m => m.imdbID).includes(imdbID)) {
                 button.disabled = true;
             } else {
                 button.disabled = false;
@@ -86,23 +73,6 @@ const App = () => {
         // set state of new buttons
         setButtons(buttonsNew);
     }, [movieSearchList, movieNominationList]);
-
-
-    // function to add a movie to the nomination list
-    const nominateMovie = (movie) => {
-       // update nomination list
-        setMovieNominationList([...movieNominationList, movie]);
-        // update number of entries
-        setNumNominationsRemaining(numNominationsRemaining-1);
-    };
-
-    // function to remove movie from nomination list
-    const removeNominatedMovie = (movie) => {
-        // update nomination list
-        setMovieNominationList(movieNominationList.filter(m => m !== movie));
-        // update number of entries
-        setNumNominationsRemaining(numNominationsRemaining+1);
-    };
 
 
     return (
@@ -119,20 +89,21 @@ const App = () => {
                         resultMessage={resultMessage}
                         movieList={movieSearchList}
                         movieButtonText='Nominate'
-                        movieButtonClick={nominateMovie}
+                        movieButtonClick={movie => setMovieNominationList([...movieNominationList, movie])}
                     />
                 </div>
 
                 {/*movie list from nominations*/}
                 <div id="movie-nomination-list" className="column">
+                    <button onClick={() => setMovieNominationList([])}>Reset Nominations</button>
                    <MovieList
                         resultMessage={`Nominations (${numNominationsRemaining} Remaining)`}
                         movieList={movieNominationList}
                         movieButtonText='Remove'
-                        movieButtonClick={removeNominatedMovie}
+                        movieButtonClick={movie => setMovieNominationList(movieNominationList.filter(m => m !== movie))}
                     />
                 </div>
-                
+
             </div>
 
         </div>
