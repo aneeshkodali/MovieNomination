@@ -12,13 +12,13 @@ const App = () => {
     const [searchResults, search, resultsText] = useMovies('');
 
     // state for nomination list
-    const [movieNominationList, setMovieNominationList] = useState([]);
+    const [nominations, setNominations] = useState([]);
     // state for buttons
     const [buttons, setButtons] = useState([]);
     
     // state for number of remaining entries
-    const MAX_NOMINATIONS = 5;
-    const numNominationsRemaining = MAX_NOMINATIONS - movieNominationList.length;
+    const MAX_ENTRIES = 5;
+    const numEntriesLeft = MAX_ENTRIES - nominations.length;
 
 
     // useEffect to set buttons state when results change or nominations change
@@ -30,7 +30,7 @@ const App = () => {
             // get the button element
             const button = document.querySelector(`#movie-search-list div.item.${imdbID} button`);
            // gray out button if # of nominations exceeded or movie already nominated
-            if (numNominationsRemaining <= 0 || movieNominationList.map(m => m.imdbID).includes(imdbID)) {
+            if (numEntriesLeft <= 0 || nominations.map(m => m.imdbID).includes(imdbID)) {
                 button.disabled = true;
             } else {
                 button.disabled = false;
@@ -40,7 +40,7 @@ const App = () => {
         });
         // set state of new buttons
         setButtons(buttonsNew);
-    }, [searchResults, movieNominationList]);
+    }, [searchResults, nominations]);
 
 
     return (
@@ -57,7 +57,7 @@ const App = () => {
                     <MovieList 
                         movieList={searchResults}
                         movieButtonText='Nominate'
-                        movieButtonClick={movie => setMovieNominationList([...movieNominationList, movie])}
+                        movieButtonClick={movie => setNominations([...nominations, movie])}
                     />
                 </div>
 
@@ -66,17 +66,17 @@ const App = () => {
                     <h3 
                         style={{display:"inline-block", marginRight:"10px"}}
                     >
-                        {`Nominations (${numNominationsRemaining} Left)`}
+                        {`Nominations (${numEntriesLeft} Left)`}
                     </h3>
                     <button 
-                        onClick={() => setMovieNominationList([])}
+                        onClick={() => setNominations([])}
                     >
                         Reset
                     </button>
                    <MovieList
-                        movieList={movieNominationList}
+                        movieList={nominations}
                         movieButtonText='Remove'
-                        movieButtonClick={movie => setMovieNominationList(movieNominationList.filter(m => m !== movie))}
+                        movieButtonClick={movie => setNominations(nominations.filter(m => m !== movie))}
                     />
                 </div>
 
