@@ -2,42 +2,46 @@ import { useState, useEffect } from 'react';
 import omdbUrl from '../apis/omdb';
 import axios from 'axios';
 
-const useMovies = (term) => {
+const useMovies = (searchTerm) => {
 
     // state for movie results
     const [searchResults, setSearchResults] = useState([]);
     // state for text to display when term is searched
     const [resultsText, setResultsText] = useState('');
-
-    const [cache, setCache] = useState({});
+    // state for cache
+    const [cache, setCache] = useState([]);
 
   
     useEffect(() => {
-        search(term);
-    }, [term]);
+        search(searchTerm);
+    }, [searchTerm]);
 
     // function to search for movie term
-    const search = async term => {
+    const search = async searchTerm => {
         // prevent api request with blank string
-        if (!term) {
+        if (!searchTerm) {
             setSearchResults([]);
             setResultsText('');
             return;
         };
 
+        const termRecord = cache.find(({ term }) => term === searchTerm);
+
         // if term already searched, retrieve from cache
-        if (cache[term]) {
-            setSearchResults(cache[term]['searchResults']);
-            setResultsText(cache[term]['resultsText']);
+        if (termRecord) {
+            setSearchResults(termRecord['searchResults']);
+            setResultsText(termRecord['resultsText']);
 
         } else {
-            cache[term] = {};
+            // initialize new object
+            const termObj = {};
+            termObj['term'] = searchTerm;
             // make request
             const response = await axios.get(omdbUrl,{
                 params: {
                     type: 'movie',
                     r: 'json',
-                    s: term
+                    s: searchTerm
                 }
             });
             // handle bad api requests
@@ -45,11 +49,11 @@ const useMovies = (term) => {
                 // set movie list to empty array
                 setSearchResults([]);
                 // set cache movie list
-                cache[term]['searchResults'] = [];
+                termObj['searchResults'] = [];
                 // set display text
                 setResultsText(response.data.Error);
                 // set cache display text
-                cache[term]['resultsText'] = response.data.Error;
+                termObj['resultsText'] = response.data.Error;
 
             } else {
                 // otherwise if good request, change states
@@ -58,14 +62,14 @@ const useMovies = (term) => {
                 // update movie list
                 setSearchResults(data.Search);
                 // set cache movie list
-                cache[term]['searchResults'] = data.Search;
+                termObj['searchResults'] = data.Search;
                 // set display text
-                setResultsText(`Results for: "${term}"`);
+                setResultsText(`Results for: "${searchTerm}"`);
                 // set cache display text
-                cache[term]['resultsText'] = `Results for: "${term}"`
+                termObj['resultsText'] = `Results for: "${searchTerm}"`
             };
             // update cache
-            setCache(cache);
+            setCache([...cache, termObj]);
         }
     };
 

@@ -3,19 +3,20 @@ import Button from './Button';
 
 const SearchHistory = ({ cache, retrieveHistory, removeHistory }) => {
 
-    const histRendered = Object.keys(cache).map(term => {
+    const histRendered = cache.map(searchTermObj => {
+        const { term } = searchTermObj;
         return (
             <div key={term}>
                 <div className="ui buttons">
                     <Button
                         buttonText="Remember"
-                        buttonClick={() => retrieveHistory(term)}
+                        buttonClick={() => retrieveHistory(searchTermObj)}
                         buttonClass="ui positive button"
                     />
                     <div className="or"></div>
                     <Button
                         buttonText="Forget"
-                        buttonClick={() => removeHistory(term)}
+                        buttonClick={() => removeHistory(searchTermObj)}
                         buttonClass="ui negative button"
                     />
                 </div>

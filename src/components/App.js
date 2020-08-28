@@ -46,22 +46,19 @@ const App = () => {
     }, [searchResults, nominations]);
 
     // function to update page with data from previously searched term
-    const retrieveHistory = (term) => {
-        //// extracting keys
-        //const { searchResults, resultsText } = cache[term];
-        //// update the search result list
-        //setSearchResults(searchResults);
-        //// update results message
-        //setResultsText(resultsText);
-        console.log(term);
+    const retrieveHistory = (searchTermObj) => {
+        // extracting keys
+        const { term, searchResults, resultsText } = searchTermObj;
+        // update the search result list
+        setSearchResults(searchResults);
+        // update results message
+        setResultsText(resultsText);
     };
 
     // function to remove term and its data from search history
-    const removeHistory = (term) => {
+    const removeHistory = (searchTermObj) => {
         // delete term entry in cache
-        //delete cache[term];
-        //setCache(Object.keys(cache).filter(t => t !== term));
-        console.log(term);
+        setCache(cache.filter(termObj => termObj.term !== searchTermObj.term));
     };
 
     return (
