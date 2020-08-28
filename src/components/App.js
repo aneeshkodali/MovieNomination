@@ -84,16 +84,13 @@ const App = () => {
                 </div>
 
                 {/*movie list from nominations*/}
-                <div id="movie-nomination-list" className="four wide column">
-                    <h3 
-                        style={{display:"inline-block", marginRight:"10px"}}
-                    >
-                        {`Nominations (${numEntriesLeft} Left)`}
-                    </h3>
+                <div id="movie-nomination-list" className="eight wide column">
+                    <h3 >{`Nominations (${numEntriesLeft} Left)`}</h3>
                     <Button 
                         buttonText="Reset" 
                         buttonClick={() => setNominations([])}
                     />
+                    <Dropdown />
                    <ButtonContext.Provider 
                         value={{
                             buttonText: "Remove", 
@@ -105,10 +102,7 @@ const App = () => {
                     </ButtonContext.Provider>
                 </div>
 
-                {/*select/add nomination lists*/}
-                <div className="four wide column">
-                    <Dropdown />
-                </div>
+               
 
                 {/*previous search terms (these are cached)*/}
                 <div className="four wide column">
