@@ -1,24 +1,26 @@
 import React, { useContext } from 'react';
-import ButtonContext from '../contexts/ButtonContext';
 import Button from './Button';
 
-const SearchHistory = ({ cache }) => {
-
-    // bring in Button attributes
-    const context = useContext(ButtonContext);
-    const { buttonText, buttonClick, buttonClass } = context;
+const SearchHistory = ({ cache, retrieveHistory, removeHistory }) => {
 
     const histRendered = Object.keys(cache).map(term => {
         return (
-            //<ButtonContext.Consumer>
-                <div key={term}>
+            <div key={term}>
+                <div className="ui buttons">
                     <Button
-                        buttonText={buttonText}
-                        buttonClick={() => buttonClick(term)}
+                        buttonText="Remember"
+                        buttonClick={() => retrieveHistory(term)}
+                        buttonClass="ui positive button"
                     />
-                    {term}
-                    </div>
-            //</ButtonContext.Consumer>
+                    <div className="or"></div>
+                    <Button
+                        buttonText="Forget"
+                        buttonClick={() => removeHistory(term)}
+                        buttonClass="ui negative button"
+                    />
+                </div>
+                {term}
+            </div>
         )
     });
 

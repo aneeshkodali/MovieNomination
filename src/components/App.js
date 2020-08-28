@@ -12,7 +12,7 @@ import ButtonContext from '../contexts/ButtonContext';
 const App = () => {
     
     // bring in variables from created hook to search for movies - initialize with no search
-    const [searchResults, setSearchResults, search, resultsText, setResultsText, cache] = useMovies('');
+    const [searchResults, setSearchResults, search, resultsText, setResultsText, cache, setCache] = useMovies('');
 
     // state for nomination list
     const [nominations, setNominations] = useState([]);
@@ -46,15 +46,23 @@ const App = () => {
     }, [searchResults, nominations]);
 
     // function to update page with data from previously searched term
-    const retrievePrevData = (term) => {
-        // extracting keys
-        const { searchResults, resultsText } = cache[term];
-        // update the search result list
-        setSearchResults(searchResults);
-        // update results message
-        setResultsText(resultsText);
-    }
+    const retrieveHistory = (term) => {
+        //// extracting keys
+        //const { searchResults, resultsText } = cache[term];
+        //// update the search result list
+        //setSearchResults(searchResults);
+        //// update results message
+        //setResultsText(resultsText);
+        console.log(term);
+    };
 
+    // function to remove term and its data from search history
+    const removeHistory = (term) => {
+        // delete term entry in cache
+        //delete cache[term];
+        //setCache(Object.keys(cache).filter(t => t !== term));
+        console.log(term);
+    };
 
     return (
         <div>
@@ -108,13 +116,15 @@ const App = () => {
                 {/*previous search terms (these are cached)*/}
                 <div className="four wide column">
                     <h3>Previous Search Terms</h3>
-                    <ButtonContext.Provider 
-                        value={{
-                            buttonClick: (term => retrievePrevData(term)), 
-                            buttonText: "Remember Me"
-                            }}>
-                        <SearchHistory cache={cache} />
-                    </ButtonContext.Provider>
+                    <div>
+                        {/*{histRendered}*/}
+                        <SearchHistory
+                            cache={cache}
+                            retrieveHistory={retrieveHistory}
+                            removeHistory={removeHistory}         
+                        />
+                    </div>
+
                     
                 </div>
 
