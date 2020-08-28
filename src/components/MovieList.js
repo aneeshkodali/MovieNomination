@@ -1,7 +1,7 @@
 import React from 'react';
 import Movie from './Movie';
 
-const MovieList = ({ movieList, movieButtonText, movieButtonClick }) => {
+const MovieList = ({ movieList }) => {
 
     // create array of movie components
     const moviesRendered = movieList.map(movie => {
@@ -9,8 +9,6 @@ const MovieList = ({ movieList, movieButtonText, movieButtonClick }) => {
                 <Movie 
                     key={movie.imdbID}
                     movie={movie}
-                    movieButtonText={movieButtonText}
-                    movieButtonClick={movieButtonClick}
                 />
         )
     });

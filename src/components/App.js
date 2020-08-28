@@ -49,11 +49,11 @@ const App = () => {
     // function to update page with data from previously searched term
     const retrievePrevData = (term) => {
         // extracting keys
-        const { searchResults, resultsText } = cache[term];
+        //const { searchResults, resultsText } = cache[term];
         // update the search result list
-        setSearchResults(searchResults);
+        setSearchResults(cache[term]['searchResults']);
         // update results message
-        setResultsText(resultsText);       
+        setSearchResults(cache[term]['resultsText']);
     }
 
 
@@ -61,20 +61,22 @@ const App = () => {
         <div>
             <h1>The Shoppies Nomination Page</h1>
           
-                <div id="movie-search">
-                    <Searchbar onSearch={search} />
-                </div>
+                <Searchbar onSearch={search} />
 
             <div className="ui grid">
 
                 {/*movie list from search results*/}
                 <div id="movie-search-list" className="four wide column">
                     <h3>{resultsText}</h3>
-                    <MovieList 
-                        movieList={searchResults}
-                        movieButtonText='Nominate'
-                        movieButtonClick={movie => setNominations([...nominations, movie])}
-                    />
+                    <ButtonContext.Provider 
+                        value={{
+                            buttonText: "Nominate", 
+                            buttonClick: (movie => setNominations([...nominations, movie])),
+                            buttonClass: "ui positive button"
+                        }}
+                    >
+                        <MovieList movieList={searchResults} />
+                    </ButtonContext.Provider>
                 </div>
 
                 {/*movie list from nominations*/}
@@ -88,11 +90,15 @@ const App = () => {
                         buttonText="Reset" 
                         buttonClick={() => setNominations([])}
                     />
-                   <MovieList
-                        movieList={nominations}
-                        movieButtonText='Remove'
-                        movieButtonClick={movie => setNominations(nominations.filter(m => m !== movie))}
-                    />
+                   <ButtonContext.Provider 
+                        value={{
+                            buttonText: "Remove", 
+                            buttonClick: (movie => setNominations(nominations.filter(m => m !== movie))),
+                            buttonClass: "ui negative button"
+                        }}
+                    >
+                        <MovieList movieList={nominations} />
+                    </ButtonContext.Provider>
                 </div>
 
                 {/*select/add nomination lists*/}
@@ -103,7 +109,11 @@ const App = () => {
                 {/*previous search terms (these are cached)*/}
                 <div className="four wide column">
                     <h3>Previous Search Terms</h3>
-                    <ButtonContext.Provider value={{buttonClick: retrievePrevData, buttonText: "Remember Me"}}>
+                    <ButtonContext.Provider 
+                        value={{
+                            buttonClick: (term => retrievePrevData(term)), 
+                            buttonText: "Remember Me"
+                            }}>
                         <SearchHistory cache={cache} />
                     </ButtonContext.Provider>
                     

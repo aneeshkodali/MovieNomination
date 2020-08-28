@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import ButtonContext from '../contexts/ButtonContext';
+import Button from './Button';
 
 const SearchHistory = ({ cache }) => {
 
@@ -11,9 +12,11 @@ const SearchHistory = ({ cache }) => {
         return (
             //<ButtonContext.Consumer>
                 <div key={term}>
-                            <button onClick={() => {buttonClick(term)}}>Remember Me</button>
-                            {/*<button onClick={() => console.log("I'm sad you want to forget me")}>Forget Me</button>*/}
-                            {term}
+                    <Button
+                        buttonText={buttonText}
+                        buttonClick={buttonClick}
+                    />
+                    {term}
                     </div>
             //</ButtonContext.Consumer>
         )

@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ButtonContext from '../contexts/ButtonContext';
+import Button from './Button';
 
-const Movie = ({ movie, movieButtonText, movieButtonClick }) => {
+const Movie = ({ movie }) => {
+
+    // bring in Button attributes
+    const context = useContext(ButtonContext);
+    const { buttonText, buttonClick, buttonClass } = context;
 
     // extract keys from movie object
     const { Title, Year, Poster, imdbID } = movie;
@@ -13,12 +19,11 @@ const Movie = ({ movie, movieButtonText, movieButtonClick }) => {
             <div className="content">
                 <div className="header">{`${Title} (${Year})`}</div>
                 <div className="extra">
-                    <button
-                        onClick={()=>movieButtonClick(movie)}
-                        className="ui button"
-                    >
-                        {movieButtonText}
-                    </button>
+                    <Button
+                        buttonClass={buttonClass}
+                        buttonClick={() => buttonClick(movie)}
+                        buttonText={buttonText}
+                    />
                 </div>
             </div>
         </div>
