@@ -14,7 +14,6 @@ const App = () => {
     // bring in variables from created hook to search for movies - initialize with no search
     const [searchResults, setSearchResults, search, resultsText, setResultsText, cache] = useMovies('');
 
-
     // state for nomination list
     const [nominations, setNominations] = useState([]);
     // state for buttons
@@ -49,11 +48,11 @@ const App = () => {
     // function to update page with data from previously searched term
     const retrievePrevData = (term) => {
         // extracting keys
-        //const { searchResults, resultsText } = cache[term];
+        const { searchResults, resultsText } = cache[term];
         // update the search result list
-        setSearchResults(cache[term]['searchResults']);
+        setSearchResults(searchResults);
         // update results message
-        setSearchResults(cache[term]['resultsText']);
+        setResultsText(resultsText);
     }
 
 

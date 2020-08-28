@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 const ButtonContext = createContext({
-    buttonClass: ''
+    buttonClass: "ui button"
 });
 
 export default ButtonContext;

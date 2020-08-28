@@ -14,7 +14,7 @@ const SearchHistory = ({ cache }) => {
                 <div key={term}>
                     <Button
                         buttonText={buttonText}
-                        buttonClick={buttonClick}
+                        buttonClick={() => buttonClick(term)}
                     />
                     {term}
                     </div>
