@@ -2,64 +2,31 @@ import React, { useState, useEffect } from 'react';
 import Searchbar from './Searchbar';
 import MovieList from './MovieList';
 import Dropdown from './Dropdown';
-import omdbUrl from '../apis/omdb';
-import axios from 'axios';
+//import omdbUrl from '../apis/omdb';
+//import axios from 'axios';
+import useMovies from '../hooks/searchMovies';
 
 const App = () => {
+    
+    // bring in variables from created hook to search for movies - initialize with no search
+    const [searchResults, search, resultsText] = useMovies('');
 
-    // state for movie search list
-    const [movieSearchList, setMovieSearchList] = useState([]);
     // state for nomination list
     const [movieNominationList, setMovieNominationList] = useState([]);
     // state for buttons
     const [buttons, setButtons] = useState([]);
-    // state for search result message
-    const [resultMessage, setResultMessage] = useState('');
+    
     // state for number of remaining entries
     const MAX_NOMINATIONS = 5;
     const numNominationsRemaining = MAX_NOMINATIONS - movieNominationList.length;
 
-    // function to search for movie term
-    const search = async term => {
-        // prevent api request with blank string
-        if (!term) {
-            setResultMessage('');
-            setMovieSearchList([]);
-            return;
-        };
-
-        // make request
-        const response = await axios.get(omdbUrl,{
-            params: {
-                type: 'movie',
-                r: 'json',
-                s: term
-            }
-        });
-
-        // handle bad api requests
-        if (response.data.Error) {
-            // show error in search result message 
-            setResultMessage(`${response.data.Error}`);
-            // set movie list to empty array
-            setMovieSearchList([]);
-        } else {
-            // otherwise if good request, change states
-            // get data from api response
-             const { data } = response;
-             // update movie list
-             setMovieSearchList(data.Search);
-             // update search result message
-             setResultMessage(`Results for: "${term}"`);
-        }
-    };
 
     // useEffect to set buttons state when results change or nominations change
     useEffect(() => {
         // initialize array of new buttons
         const buttonsNew = [];
         // loop through each movie in the search list
-        movieSearchList.forEach(({ imdbID }) => {
+        searchResults.forEach(({ imdbID }) => {
             // get the button element
             const button = document.querySelector(`#movie-search-list div.item.${imdbID} button`);
            // gray out button if # of nominations exceeded or movie already nominated
@@ -73,7 +40,7 @@ const App = () => {
         });
         // set state of new buttons
         setButtons(buttonsNew);
-    }, [movieSearchList, movieNominationList]);
+    }, [searchResults, movieNominationList]);
 
 
     return (
@@ -86,9 +53,9 @@ const App = () => {
 
                 {/*movie list from search results*/}
                 <div id="movie-search-list" className="six wide column">
-                    <h3>{resultMessage}</h3>
+                    <h3>{resultsText}</h3>
                     <MovieList 
-                        movieList={movieSearchList}
+                        movieList={searchResults}
                         movieButtonText='Nominate'
                         movieButtonClick={movie => setMovieNominationList([...movieNominationList, movie])}
                     />

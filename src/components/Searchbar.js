@@ -4,12 +4,13 @@ const Searchbar = ({ onSearch }) => {
 
     // state for term
     const [term, setTerm] = useState('');
-    const [debouncedTerm, setDebouncedTerm] = useState(term);
+    //const [debouncedTerm, setDebouncedTerm] = useState(term);
 
      // useEffect to set debouncedTerm equal to term after x ms of non-typing
      useEffect(() => {
         const timerId = setTimeout(() => {
-            setDebouncedTerm(term);
+            //setDebouncedTerm(term);
+            onSearch(term);
         }, 1000);
         return () => {
             clearTimeout(timerId);
@@ -17,9 +18,9 @@ const Searchbar = ({ onSearch }) => {
     }, [term]);
 
     // useEffct to perform search on debounced term
-    useEffect(() => {
-        onSearch(debouncedTerm);
-    }, [debouncedTerm])
+    //useEffect(() => {
+    //    onSearch(debouncedTerm);
+    //}, [debouncedTerm])
 
     return (
         <div className="ui search">

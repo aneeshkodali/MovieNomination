@@ -8,7 +8,7 @@ const Dropdown = () => {
                 <option value="1">Male</option>
                 <option value="0">Female</option>
             </select>
-            <i class="plus square icon"></i>
+            <i className="plus square icon"></i>
         </div>
     );
 };
