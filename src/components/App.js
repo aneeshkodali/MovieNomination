@@ -3,7 +3,7 @@ import Searchbar from './Searchbar';
 import MovieList from './MovieList';
 import Dropdown from './Dropdown';
 import SearchHistory from './SearchHistory';
-//import Button from './Button';
+import Button from './Button';
 //import omdbUrl from '../apis/omdb';
 //import axios from 'axios';
 import useMovies from '../hooks/searchMovies';
@@ -84,11 +84,10 @@ const App = () => {
                     >
                         {`Nominations (${numEntriesLeft} Left)`}
                     </h3>
-                    <button 
-                        onClick={() => setNominations([])}
-                    >
-                        Reset
-                    </button>
+                    <Button 
+                        buttonText="Reset" 
+                        buttonClick={() => setNominations([])}
+                    />
                    <MovieList
                         movieList={nominations}
                         movieButtonText='Remove'
