@@ -70,7 +70,7 @@ const useMovies = (term) => {
     };
 
 
-    return [searchResults, search, resultsText, cache];
+    return [searchResults, setSearchResults, search, resultsText, setResultsText, cache];
 
 };
 

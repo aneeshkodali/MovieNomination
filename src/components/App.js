@@ -3,14 +3,17 @@ import Searchbar from './Searchbar';
 import MovieList from './MovieList';
 import Dropdown from './Dropdown';
 import SearchHistory from './SearchHistory';
+//import Button from './Button';
 //import omdbUrl from '../apis/omdb';
 //import axios from 'axios';
 import useMovies from '../hooks/searchMovies';
+import ButtonContext from '../contexts/ButtonContext';
 
 const App = () => {
     
     // bring in variables from created hook to search for movies - initialize with no search
-    const [searchResults, search, resultsText, cache] = useMovies('');
+    const [searchResults, setSearchResults, search, resultsText, setResultsText, cache] = useMovies('');
+
 
     // state for nomination list
     const [nominations, setNominations] = useState([]);
@@ -43,12 +46,24 @@ const App = () => {
         setButtons(buttonsNew);
     }, [searchResults, nominations]);
 
+    // function to update page with data from previously searched term
+    const retrievePrevData = (term) => {
+        // extracting keys
+        const { searchResults, resultsText } = cache[term];
+        // update the search result list
+        setSearchResults(searchResults);
+        // update results message
+        setResultsText(resultsText);       
+    }
+
 
     return (
         <div>
             <h1>The Shoppies Nomination Page</h1>
           
-                <Searchbar onSearch={search} />
+                <div id="movie-search">
+                    <Searchbar onSearch={search} />
+                </div>
 
             <div className="ui grid">
 
@@ -89,7 +104,10 @@ const App = () => {
                 {/*previous search terms (these are cached)*/}
                 <div className="four wide column">
                     <h3>Previous Search Terms</h3>
-                    <SearchHistory cache={cache} />
+                    <ButtonContext.Provider value={{buttonClick: retrievePrevData, buttonText: "Remember Me"}}>
+                        <SearchHistory cache={cache} />
+                    </ButtonContext.Provider>
+                    
                 </div>
 
             </div>
