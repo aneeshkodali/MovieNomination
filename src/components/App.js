@@ -9,7 +9,7 @@ import useMovies from '../hooks/searchMovies';
 const App = () => {
     
     // bring in variables from created hook to search for movies - initialize with no search
-    const [searchResults, search, resultsText] = useMovies('');
+    const [searchResults, search, resultsText, cache] = useMovies('');
 
     // state for nomination list
     const [nominations, setNominations] = useState([]);
