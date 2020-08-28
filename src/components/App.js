@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Searchbar from './Searchbar';
 import MovieList from './MovieList';
+import Dropdown from './Dropdown';
 import omdbUrl from '../apis/omdb';
 import axios from 'axios';
 
@@ -114,7 +115,7 @@ const App = () => {
 
                 {/*select/add nomination lists*/}
                 <div className="4 wide column">
-                    FORM WILL GO HERE
+                    <Dropdown />
                 </div>
 
             </div>
