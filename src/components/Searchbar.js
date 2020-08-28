@@ -6,7 +6,8 @@ const Searchbar = ({ onSearch }) => {
     const [term, setTerm] = useState('');
     //const [debouncedTerm, setDebouncedTerm] = useState(term);
 
-     // useEffect to set debouncedTerm equal to term after x ms of non-typing
+    ////  useEffect to set debouncedTerm equal to term after x ms of non-typing
+    // useEffct to perform search on debounced term
      useEffect(() => {
         const timerId = setTimeout(() => {
             //setDebouncedTerm(term);

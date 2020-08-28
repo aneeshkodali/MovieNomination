@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Searchbar from './Searchbar';
 import MovieList from './MovieList';
 import Dropdown from './Dropdown';
+import SearchHistory from './SearchHistory';
 //import omdbUrl from '../apis/omdb';
 //import axios from 'axios';
 import useMovies from '../hooks/searchMovies';
@@ -52,7 +53,7 @@ const App = () => {
             <div className="ui grid">
 
                 {/*movie list from search results*/}
-                <div id="movie-search-list" className="six wide column">
+                <div id="movie-search-list" className="four wide column">
                     <h3>{resultsText}</h3>
                     <MovieList 
                         movieList={searchResults}
@@ -62,7 +63,7 @@ const App = () => {
                 </div>
 
                 {/*movie list from nominations*/}
-                <div id="movie-nomination-list" className="six wide column">
+                <div id="movie-nomination-list" className="four wide column">
                     <h3 
                         style={{display:"inline-block", marginRight:"10px"}}
                     >
@@ -81,8 +82,14 @@ const App = () => {
                 </div>
 
                 {/*select/add nomination lists*/}
-                <div className="4 wide column">
+                <div className="four wide column">
                     <Dropdown />
+                </div>
+
+                {/*previous search terms (these are cached)*/}
+                <div className="four wide column">
+                    <h3>Previous Search Terms</h3>
+                    <SearchHistory cache={cache} />
                 </div>
 
             </div>
