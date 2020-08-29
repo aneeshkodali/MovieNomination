@@ -4,8 +4,6 @@ import MovieList from './MovieList';
 import Dropdown from './Dropdown';
 import SearchHistory from './SearchHistory';
 import Button from './Button';
-//import omdbUrl from '../apis/omdb';
-//import axios from 'axios';
 import useMovies from '../hooks/searchMovies';
 import ButtonContext from '../contexts/ButtonContext';
 
@@ -18,6 +16,9 @@ const App = () => {
     const [nominations, setNominations] = useState([]);
     // state for buttons
     const [buttons, setButtons] = useState([]);
+    // state for list of categories
+    const [categoryList, setCategoryList] = useState([]);
+    const [categorySelected, setCategorySelected] = useState(categoryList[0]);
     
     // state for number of remaining entries
     const MAX_ENTRIES = 5;
@@ -30,7 +31,7 @@ const App = () => {
         const buttonsNew = [];
         // loop through each movie in the search list
         searchResults.forEach(({ imdbID }) => {
-            // get the button element
+            // get the button element (each movie div has classname of .item.[imdbID])
             const button = document.querySelector(`#movie-search-list div.item.${imdbID} button`);
            // gray out button if # of nominations exceeded or movie already nominated
             if (numEntriesLeft <= 0 || nominations.map(m => m.imdbID).includes(imdbID)) {
@@ -61,6 +62,26 @@ const App = () => {
         setCache(cache.filter(termObj => termObj.term !== searchTermObj.term));
     };
 
+    // function to change which category is currently selected
+    const selectCategory = (event) => {
+        setCategorySelected(event.target.value);
+    };
+
+    // function to add category to list
+    const addCategory = (value) => {
+        // first check to make sure value is not already in list
+        if (categoryList.includes(value)) {
+            return;
+        };
+        // add value to category list
+        setCategoryList([...categoryList, value]);
+
+        // change currently selected category
+        setCategorySelected(value);
+    };
+    
+
+
     return (
         <div>
             <h1>The Shoppies Nomination Page</h1>
@@ -69,9 +90,11 @@ const App = () => {
 
             <div className="ui grid">
 
-                {/*movie list from search results*/}
+                {/*div to render movies from search results*/}
+                {/*all buttons in this movie list are the same, so it's fine to use context*/}
                 <div id="movie-search-list" className="four wide column">
                     <h3>{resultsText}</h3>
+                    {/*pass button properties so all buttons in child components will be the same*/}
                     <ButtonContext.Provider 
                         value={{
                             buttonText: "Nominate", 
@@ -83,14 +106,28 @@ const App = () => {
                     </ButtonContext.Provider>
                 </div>
 
-                {/*movie list from nominations*/}
+                {/*div to show movies that have been nominate*/}
+                {/*again, all buttons in this list are the same, so it's fine to use context*/}
                 <div id="movie-nomination-list" className="eight wide column">
                     <h3 >{`Nominations (${numEntriesLeft} Left)`}</h3>
                     <Button 
                         buttonText="Reset" 
                         buttonClick={() => setNominations([])}
                     />
-                    <Dropdown />
+                    <div id="category-dropdown">
+                        <h3>Your Categories</h3>
+                        <Dropdown 
+                            options={categoryList}
+                            optionSelected={categorySelected}
+                            onSelect={selectCategory}
+                        />
+                        {/*button to add category*/}
+                        <Button
+                            buttonText={<i className="plus icon" />}
+                            buttonClick={() => addCategory('Drama')}
+                        />
+                    </div>
+                    {/*pass button properties so all buttons in child components will be the same*/}
                    <ButtonContext.Provider 
                         value={{
                             buttonText: "Remove", 
