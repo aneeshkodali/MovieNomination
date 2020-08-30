@@ -16,15 +16,39 @@ const App = () => {
     // initialize category list
     const categoryList = ['Action', 'Comedy', 'Drama'];
     // state to control which category label index selected
-    const indexInitial=0;
+    const indexInitial="0";
     const [categoryIndexSelected, setCategoryIndexSelected] = useState(indexInitial);
+    const [nominationListOfLists, setNominationListofLists] = useState(categoryList.map(cat => []));
+    const [nominationListSelected, setNominationListSelected] = useState(nominationListOfLists[indexInitial]);
 
 
     // function to change which category is currently selected
     const selectCategory = (event) => {
-        setCategoryIndexSelected(event.target.value);
+        const index = event.target.value;
+        setCategoryIndexSelected(index);
+        setNominationListSelected(nominationListOfLists[index]);
     };
 
+    // function to add movie to nomination list
+    const addNomination = (movie) => {
+        nominationListOfLists[categoryIndexSelected] = [...nominationListOfLists[categoryIndexSelected], movie];
+        setNominationListSelected(nominationListOfLists[categoryIndexSelected]);
+        setNominationListofLists(nominationListOfLists);
+    };
+
+    // function to reset nomination list
+    const resetNominations = () => {
+        nominationListOfLists[categoryIndexSelected] = [];
+        setNominationListSelected(nominationListOfLists[categoryIndexSelected]);
+        setNominationListofLists(nominationListOfLists);
+    };
+
+    // function to remove nomination from list
+    const removeNomination = (movie) => {
+        nominationListOfLists[categoryIndexSelected] = nominationListOfLists[categoryIndexSelected].filter(m => m !== movie);
+        setNominationListSelected(nominationListOfLists[categoryIndexSelected]);
+        setNominationListofLists(nominationListOfLists);
+    };
 
 
     // state for nomination list
@@ -34,7 +58,7 @@ const App = () => {
     
     // state for number of remaining entries
     const MAX_ENTRIES = 5;
-    const numEntriesLeft = MAX_ENTRIES - nominations.length;
+    const numEntriesLeft = MAX_ENTRIES - nominationListSelected.length;
 
 
     // useEffect to set buttons state when results change or nominations change
@@ -46,7 +70,7 @@ const App = () => {
             // get the button element (each movie div has classname of .item.[imdbID])
             const button = document.querySelector(`#movie-search-list div.item.${imdbID} button`);
            // gray out button if # of nominations exceeded or movie already nominated
-            if (numEntriesLeft <= 0 || nominations.map(m => m.imdbID).includes(imdbID)) {
+            if (numEntriesLeft <= 0 || nominationListSelected.map(m => m.imdbID).includes(imdbID)) {
                 button.disabled = true;
             } else {
                 button.disabled = false;
@@ -56,7 +80,7 @@ const App = () => {
         });
         // set state of new buttons
         setButtons(buttonsNew);
-    }, [searchResults, nominations]);
+    }, [searchResults, nominationListSelected]);
 
     // function to update page with data from previously searched term
     const retrieveHistory = (searchTermObj) => {
@@ -92,7 +116,7 @@ const App = () => {
                     <ButtonContext.Provider 
                         value={{
                             buttonText: "Nominate", 
-                            buttonClick: (movie => setNominations([...nominations, movie])),
+                            buttonClick: (movie => addNomination(movie)),
                             buttonClass: "ui positive button"
                         }}
                     >
@@ -106,7 +130,7 @@ const App = () => {
                     <h3 >{`Nominations (${numEntriesLeft} Left)`}</h3>
                     <Button 
                         buttonText="Reset" 
-                        buttonClick={() => setNominations([])}
+                        buttonClick={resetNominations}
                     />
                     <div id="category-dropdown">
                         <h3>Your Categories</h3>
@@ -121,11 +145,11 @@ const App = () => {
                    <ButtonContext.Provider 
                         value={{
                             buttonText: "Remove", 
-                            buttonClick: (movie => setNominations(nominations.filter(m => m !== movie))),
+                            buttonClick: (movie => removeNomination(movie)),
                             buttonClass: "ui negative button"
                         }}
                     >
-                        <MovieList movieList={nominations} />
+                        <MovieList movieList={nominationListOfLists[categoryIndexSelected]} />
                     </ButtonContext.Provider>
                 </div>
 
