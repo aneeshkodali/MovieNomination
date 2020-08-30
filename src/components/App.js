@@ -7,6 +7,8 @@ import Button from './Button';
 import useMovies from '../hooks/searchMovies';
 import ButtonContext from '../contexts/ButtonContext';
 
+import './App.css';
+
 const App = () => {
     
     // bring in variables from created hook to search for movies - initialize with no search
@@ -51,16 +53,15 @@ const App = () => {
     };
 
 
-    // state for nomination list
-    const [nominations, setNominations] = useState([]);
-    // state for buttons
-    const [buttons, setButtons] = useState([]);
+
     
     // state for number of remaining entries
     const MAX_ENTRIES = 5;
     const numEntriesLeft = MAX_ENTRIES - nominationListSelected.length;
 
 
+    // state for buttons
+    const [buttons, setButtons] = useState([]);
     // useEffect to set buttons state when results change or nominations change
     useEffect(() => {
         // initialize array of new buttons
@@ -126,21 +127,18 @@ const App = () => {
 
                 {/*div to show movies that have been nominate*/}
                 {/*again, all buttons in this list are the same, so it's fine to use context*/}
-                <div id="movie-nomination-list" className="eight wide column">
+                <div className="eight wide column">
                     <h3 >{`Nominations (${numEntriesLeft} Left)`}</h3>
                     <Button 
                         buttonText="Reset" 
                         buttonClick={resetNominations}
                     />
-                    <div id="category-dropdown">
                         <h3>Your Categories</h3>
                         <Dropdown 
                             options={categoryList}
                             optionSelected={categoryIndexSelected}
                             onSelect={selectCategory}
                         />
-
-                    </div>
                     {/*pass button properties so all buttons in child components will be the same*/}
                    <ButtonContext.Provider 
                         value={{
@@ -149,7 +147,7 @@ const App = () => {
                             buttonClass: "ui negative button"
                         }}
                     >
-                        <MovieList movieList={nominationListOfLists[categoryIndexSelected]} />
+                        <MovieList movieList={nominationListSelected} />
                     </ButtonContext.Provider>
                 </div>
 
