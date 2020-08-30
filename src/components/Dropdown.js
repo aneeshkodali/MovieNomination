@@ -1,9 +1,9 @@
 import React from 'react';
 
 const Dropdown = ({ options, optionSelected, onSelect }) => {
-    const optionsRendered = options.map(option => {
+    const optionsRendered = options.map((option, index) => {
         return <React.Fragment key={option}>
-            <option value={option}>{option}</option>
+            <option value={index}>{option}</option>
         </React.Fragment>
     });
 

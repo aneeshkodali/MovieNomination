@@ -12,13 +12,25 @@ const App = () => {
     // bring in variables from created hook to search for movies - initialize with no search
     const [searchResults, setSearchResults, search, resultsText, setResultsText, cache, setCache] = useMovies('');
 
+    
+    // initialize category list
+    const categoryList = ['Action', 'Comedy', 'Drama'];
+    // state to control which category label index selected
+    const indexInitial=0;
+    const [categoryIndexSelected, setCategoryIndexSelected] = useState(indexInitial);
+
+
+    // function to change which category is currently selected
+    const selectCategory = (event) => {
+        setCategoryIndexSelected(event.target.value);
+    };
+
+
+
     // state for nomination list
     const [nominations, setNominations] = useState([]);
     // state for buttons
     const [buttons, setButtons] = useState([]);
-    // state for list of categories
-    const [categoryList, setCategoryList] = useState([]);
-    const [categorySelected, setCategorySelected] = useState(categoryList[0]);
     
     // state for number of remaining entries
     const MAX_ENTRIES = 5;
@@ -62,24 +74,6 @@ const App = () => {
         setCache(cache.filter(termObj => termObj.term !== searchTermObj.term));
     };
 
-    // function to change which category is currently selected
-    const selectCategory = (event) => {
-        setCategorySelected(event.target.value);
-    };
-
-    // function to add category to list
-    const addCategory = (value) => {
-        // first check to make sure value is not already in list
-        if (categoryList.includes(value)) {
-            return;
-        };
-        // add value to category list
-        setCategoryList([...categoryList, value]);
-
-        // change currently selected category
-        setCategorySelected(value);
-    };
-    
 
 
     return (
@@ -118,14 +112,10 @@ const App = () => {
                         <h3>Your Categories</h3>
                         <Dropdown 
                             options={categoryList}
-                            optionSelected={categorySelected}
+                            optionSelected={categoryIndexSelected}
                             onSelect={selectCategory}
                         />
-                        {/*button to add category*/}
-                        <Button
-                            buttonText={<i className="plus icon" />}
-                            buttonClick={() => addCategory('Drama')}
-                        />
+
                     </div>
                     {/*pass button properties so all buttons in child components will be the same*/}
                    <ButtonContext.Provider 
