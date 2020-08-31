@@ -69,7 +69,7 @@ const App = () => {
         // loop through each movie in the search list
         searchResults.forEach(({ imdbID }) => {
             // get the button element (each movie div has classname of .item.[imdbID])
-            const button = document.querySelector(`#movie-search-list div.${imdbID} button`);
+            const button = document.querySelector(`#movie-search-list .${imdbID} button`);
            // gray out button if # of nominations exceeded or movie already nominated
             if (numEntriesLeft <= 0 || nominationListSelected.map(m => m.imdbID).includes(imdbID)) {
                 button.disabled = true;
@@ -118,9 +118,9 @@ const App = () => {
                     {/*pass button properties so all buttons in child components will be the same*/}
                     <ButtonContext.Provider 
                         value={{
-                            buttonText: "Nominate", 
+                            buttonText: <i className="ui plus icon" />, 
                             buttonClick: (movie => addNomination(movie)),
-                            buttonClass: "ui positive button"
+                            buttonClass: "ui positive right floated icon button"
                         }}
                     >
                         <MovieList movieList={searchResults} />
@@ -150,9 +150,9 @@ const App = () => {
                     {/*pass button properties so all buttons in child components will be the same*/}
                    <ButtonContext.Provider 
                         value={{
-                            buttonText: "Remove", 
+                            buttonText: <i className="ui minus icon" />, 
                             buttonClick: (movie => removeNomination(movie)),
-                            buttonClass: "ui negative button"
+                            buttonClass: "ui negative right floated icon button"
                         }}
                     >
                         <MovieList movieList={nominationListSelected} />
@@ -163,9 +163,10 @@ const App = () => {
 
                 {/*previous search terms (these are cached)*/}
                 <div className="four wide column">
-                    <h3>Previous Search Terms</h3>
+                        <div className="ui header">
+                            <h3>Previous Search Terms</h3>
+                        </div>
                     <div>
-                        {/*{histRendered}*/}
                         <SearchHistory
                             cache={cache}
                             retrieveHistory={retrieveHistory}

@@ -11,10 +11,13 @@ const Movie = ({ movie }) => {
     // extract keys from movie object
     const { Title, Year, Poster, imdbID } = movie;
 
+    const imgDivStyle = {height: "60%"};
+    const imgStyle = {height: "100%", width:"100%"};
+
     return (
-        <div className={`item ${imdbID}`}>
-            <div className="image">
-                <img src={Poster} alt={Title} />
+        <React.Fragment>
+            <div style={imgDivStyle} className="image">
+                <img style={imgStyle} src={Poster} alt={Title} />
             </div>
             <div className="content">
                 <div className="header">{`${Title} (${Year})`}</div>
@@ -26,7 +29,7 @@ const Movie = ({ movie }) => {
                     />
                 </div>
             </div>
-        </div>
+        </React.Fragment>
     );
 };
 
