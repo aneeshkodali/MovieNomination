@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Movie from './Movie';
 
 const MovieList = ({ movieList }) => {
 
-    const cardStyle = {height:"300px"};
+    const divStyle = {
+                        height:"200px"
+                        , border:"1px solid black"
+                        , padding:"5px"
+                    };
+
 
 
     // create array of movie components
     const moviesRendered = movieList.map(movie => {
         return (
-            <div style={cardStyle} className={`card ${movie.imdbID}`}>
+            <div style={divStyle} className={`item ${movie.imdbID}`}>
                 <Movie 
                     key={movie.imdbID}
                     movie={movie}
@@ -19,7 +24,7 @@ const MovieList = ({ movieList }) => {
     });
     
     return (
-        <div className="ui cards">
+        <div className="ui items">
             {moviesRendered}
         </div>
     );

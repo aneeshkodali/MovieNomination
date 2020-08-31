@@ -1,5 +1,9 @@
-.card button {
+.content {
     position: relative;
-    bottom: 0;
+}
+
+.item button {
+    position: absolute;
     right: 0;
+    bottom: 0;
 }

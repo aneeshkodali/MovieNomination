@@ -16,7 +16,7 @@ const App = () => {
 
     
     // initialize category list
-    const categoryList = ['Action', 'Comedy', 'Drama'];
+    const categoryList = ['Action', 'Best Picture', 'Comedy', 'Drama', 'Worst Picture'];
     // state to control which category label index selected
     const indexInitial="0";
     const [categoryIndexSelected, setCategoryIndexSelected] = useState(indexInitial);
@@ -104,9 +104,9 @@ const App = () => {
     return (
         <div>
             <h1>The Shoppies Nomination Page</h1>
-          
+            <div id="searchbar">
                 <Searchbar onSearch={search} />
-
+            </div>
             <div className="ui grid">
 
                 {/*div to render movies from search results*/}
@@ -120,7 +120,8 @@ const App = () => {
                         value={{
                             buttonText: <i className="ui plus icon" />, 
                             buttonClick: (movie => addNomination(movie)),
-                            buttonClass: "ui positive right floated icon button"
+                            buttonClass: "ui positive icon button"
+                            //buttonClass: "ui positive right floated icon button"
                         }}
                     >
                         <MovieList movieList={searchResults} />
@@ -130,19 +131,23 @@ const App = () => {
                 {/*div to show movies that have been nominate*/}
                 {/*again, all buttons in this list are the same, so it's fine to use context*/}
                 <div className="six wide column">
-                    <div className="ui header">
+                    <div id="nomination-header" className="ui header">
                         <h3>
                             Nominations for
-                            <Dropdown 
-                                options={categoryList}
-                                optionSelected={categoryIndexSelected}
-                                onSelect={selectCategory}
-                            />
+                            <span>
+                                <Dropdown 
+                                    options={categoryList}
+                                    optionSelected={categoryIndexSelected}
+                                    onSelect={selectCategory}
+                                />
+                            </span>
                             ({numEntriesLeft} Left)
-                            <Button 
-                                buttonText="Reset" 
-                                buttonClick={resetNominations}
-                            />
+                            <span>
+                                <Button 
+                                    buttonText="Reset" 
+                                    buttonClick={resetNominations}
+                                />
+                            </span>
                         </h3>
                         
                     </div>
@@ -152,7 +157,7 @@ const App = () => {
                         value={{
                             buttonText: <i className="ui minus icon" />, 
                             buttonClick: (movie => removeNomination(movie)),
-                            buttonClass: "ui negative right floated icon button"
+                            buttonClass: "ui negative icon button"
                         }}
                     >
                         <MovieList movieList={nominationListSelected} />

@@ -1,7 +1,19 @@
-/*body {
+body {
     margin: 10px;
+}
+
+#searchbar {
+    margin-bottom: 20px;
+}
+
+
+/*.ui.header {
+    margin-bottom: 50px;
 }*/
 
-.ui.header {
-    margin-bottom: 100px;
+#nomination-header select, #nomination-header button {
+    margin: 0 5px;
+    border: 0;
+    padding-bottom: 0;
+    outline: 1px solid black;
 }
