@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Button from './Button';
+import './SearchHistory.css';
 
 const SearchHistory = ({ cache, retrieveHistory, removeHistory }) => {
 
@@ -10,7 +11,7 @@ const SearchHistory = ({ cache, retrieveHistory, removeHistory }) => {
                 <div className="ui buttons"  style={{marginRight:"10px"}}>
                     <Button
                         //buttonText="Remember"
-                        buttonText={<i class="check icon" />}
+                        buttonText={<i class="redo icon" />}
 
                         buttonClick={() => retrieveHistory(searchTermObj)}
                         buttonClass="ui positive icon button"
@@ -23,7 +24,7 @@ const SearchHistory = ({ cache, retrieveHistory, removeHistory }) => {
                         buttonClass="ui negative icon button"
                     />
                 </div>
-                {term}
+                "{term}"
             </div>
         )
     });

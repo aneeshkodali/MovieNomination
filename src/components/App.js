@@ -103,7 +103,7 @@ const App = () => {
 
     return (
         <div>
-            <h1>The Shoppies Nomination Page</h1>
+            <h1>Movie NomiNATION</h1>
             <div id="searchbar">
                 <Searchbar onSearch={search} />
             </div>
@@ -171,7 +171,7 @@ const App = () => {
                         <div className="ui header">
                             <h3>Previous Search Terms</h3>
                         </div>
-                    <div>
+                    <div id="search-history">
                         <SearchHistory
                             cache={cache}
                             retrieveHistory={retrieveHistory}
