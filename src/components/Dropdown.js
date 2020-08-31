@@ -8,15 +8,13 @@ const Dropdown = ({ options, optionSelected, onSelect }) => {
     });
 
     return (
-        <div>
            <select 
                 value={optionSelected}
                 onChange={(e) => onSelect(e)} 
-                className="ui dropdown">
-                {/*<option value="">Categories</option>*/}
+                //className="ui dropdown"
+            >
                 {optionsRendered}
             </select>
-        </div>
     );
 };
 

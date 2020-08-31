@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 const Searchbar = ({ onSearch }) => {
 
     // state for term
-    const [term, setTerm] = useState('');
+    const [term, setTerm] = useState('captain america');
     //const [debouncedTerm, setDebouncedTerm] = useState(term);
 
     ////  useEffect to set debouncedTerm equal to term after x ms of non-typing

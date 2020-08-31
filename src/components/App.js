@@ -111,8 +111,10 @@ const App = () => {
 
                 {/*div to render movies from search results*/}
                 {/*all buttons in this movie list are the same, so it's fine to use context*/}
-                <div id="movie-search-list" className="four wide column">
-                    <h3>{resultsText}</h3>
+                <div id="movie-search-list" className="six wide column">
+                    <div classname="ui header">
+                        <h3>{resultsText}</h3>
+                    </div>
                     {/*pass button properties so all buttons in child components will be the same*/}
                     <ButtonContext.Provider 
                         value={{
@@ -127,18 +129,24 @@ const App = () => {
 
                 {/*div to show movies that have been nominate*/}
                 {/*again, all buttons in this list are the same, so it's fine to use context*/}
-                <div className="eight wide column">
-                    <h3 >{`Nominations (${numEntriesLeft} Left)`}</h3>
-                    <Button 
-                        buttonText="Reset" 
-                        buttonClick={resetNominations}
-                    />
-                        <h3>Your Categories</h3>
-                        <Dropdown 
-                            options={categoryList}
-                            optionSelected={categoryIndexSelected}
-                            onSelect={selectCategory}
-                        />
+                <div className="six wide column">
+                    <div className="ui header">
+                        <h3>
+                            Nominations for
+                            <Dropdown 
+                                options={categoryList}
+                                optionSelected={categoryIndexSelected}
+                                onSelect={selectCategory}
+                            />
+                            ({numEntriesLeft} Left)
+                            <Button 
+                                buttonText="Reset" 
+                                buttonClick={resetNominations}
+                            />
+                        </h3>
+                        
+                    </div>
+                    
                     {/*pass button properties so all buttons in child components will be the same*/}
                    <ButtonContext.Provider 
                         value={{
