@@ -69,7 +69,7 @@ const App = () => {
         // loop through each movie in the search list
         searchResults.forEach(({ imdbID }) => {
             // get the button element (each movie div has classname of .item.[imdbID])
-            const button = document.querySelector(`#movie-search-list div.item.${imdbID} button`);
+            const button = document.querySelector(`#movie-search-list div.${imdbID} button`);
            // gray out button if # of nominations exceeded or movie already nominated
             if (numEntriesLeft <= 0 || nominationListSelected.map(m => m.imdbID).includes(imdbID)) {
                 button.disabled = true;
@@ -112,7 +112,7 @@ const App = () => {
                 {/*div to render movies from search results*/}
                 {/*all buttons in this movie list are the same, so it's fine to use context*/}
                 <div id="movie-search-list" className="six wide column">
-                    <div classname="ui header">
+                    <div className="ui header">
                         <h3>{resultsText}</h3>
                     </div>
                     {/*pass button properties so all buttons in child components will be the same*/}
