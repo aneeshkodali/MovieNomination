@@ -10,13 +10,16 @@ const MovieList = ({ movieList }) => {
                     };
 
 
-
     // create array of movie components
     const moviesRendered = movieList.map(movie => {
+        const { imdbID } = movie;
         return (
-            <div style={divStyle} className={`item ${movie.imdbID}`}>
+            <div 
+                key={imdbID}
+                style={divStyle} 
+                className={`item ${imdbID}`}
+            >
                 <Movie 
-                    key={movie.imdbID}
                     movie={movie}
                 />
             </div>

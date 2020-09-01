@@ -20,41 +20,46 @@ const App = () => {
     // state to control which category label index selected
     const indexInitial="0";
     const [categoryIndexSelected, setCategoryIndexSelected] = useState(indexInitial);
-    const [nominationListOfLists, setNominationListofLists] = useState(categoryList.map(cat => []));
-    const [nominationListSelected, setNominationListSelected] = useState(nominationListOfLists[indexInitial]);
+    const nominationListOfListsInitial = categoryList.map(cat => {
+        return {category: cat, nominations: []};
+    });
+    const [nominationListOfLists, setNominationListofLists] = useState(nominationListOfListsInitial);
+    const nominationListSelectedInitial = nominationListOfLists[indexInitial].nominations
+    const [nominationListSelected, setNominationListSelected] = useState(nominationListSelectedInitial);
+
 
 
     // function to change which category is currently selected
     const selectCategory = (event) => {
         const index = event.target.value;
         setCategoryIndexSelected(index);
-        setNominationListSelected(nominationListOfLists[index]);
+        setNominationListSelected(nominationListOfLists[index].nominations);
     };
 
     // function to add movie to nomination list
     const addNomination = (movie) => {
-        nominationListOfLists[categoryIndexSelected] = [...nominationListOfLists[categoryIndexSelected], movie];
-        setNominationListSelected(nominationListOfLists[categoryIndexSelected]);
+        nominationListOfLists[categoryIndexSelected].nominations = [...nominationListOfLists[categoryIndexSelected].nominations, movie];
+        setNominationListSelected(nominationListOfLists[categoryIndexSelected].nominations);
         setNominationListofLists(nominationListOfLists);
     };
 
     // function to reset nomination list
     const resetNominations = () => {
-        nominationListOfLists[categoryIndexSelected] = [];
-        setNominationListSelected(nominationListOfLists[categoryIndexSelected]);
+        nominationListOfLists[categoryIndexSelected].nominations = [];
+        setNominationListSelected(nominationListOfLists[categoryIndexSelected].nominations);
         setNominationListofLists(nominationListOfLists);
     };
 
     // function to reset ALL nomination list
     const resetNominationsAll = () => {
         setNominationListSelected([]);
-        setNominationListofLists(categoryList.map(cat => []));
+        setNominationListofLists(nominationListOfListsInitial);
     };
 
     // function to remove nomination from list
     const removeNomination = (movie) => {
-        nominationListOfLists[categoryIndexSelected] = nominationListOfLists[categoryIndexSelected].filter(m => m !== movie);
-        setNominationListSelected(nominationListOfLists[categoryIndexSelected]);
+        nominationListOfLists[categoryIndexSelected].nominations = nominationListOfLists[categoryIndexSelected].nominations.filter(m => m !== movie);
+        setNominationListSelected(nominationListOfLists[categoryIndexSelected].nominations);
         setNominationListofLists(nominationListOfLists);
     };
 
