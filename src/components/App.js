@@ -82,11 +82,7 @@ const App = () => {
             // get the button element (each movie div has classname of .item.[imdbID])
             const button = document.querySelector(`#movie-search-list .${imdbID} button`);
            // gray out button if # of nominations exceeded or movie already nominated
-            if (nominationListSelected > MAX_ENTRIES || nominationListSelected.map(m => m.imdbID).includes(imdbID)) {
-                button.disabled = true;
-            } else {
-                button.disabled = false;
-            }
+            button.disabled = nominationListSelected.length === MAX_ENTRIES || nominationListSelected.map(m => m.imdbID).includes(imdbID);
             // add button to array
             buttonsNew.push(button);
         });
