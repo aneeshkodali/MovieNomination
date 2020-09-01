@@ -29,7 +29,7 @@ const MovieList = ({ movieList }) => {
         return (
             <div key={imdbID}>
                 <div 
-                    className={`title ${imdbID} ${active}`}
+                    className={`title ${active}`}
                 >
                     <span onClick={() => onTitleClick(index)}>
                         <i className="dropdown icon" />

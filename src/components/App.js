@@ -75,19 +75,13 @@ const App = () => {
     const [buttons, setButtons] = useState([]);
     // useEffect to set buttons state when results change or nominations change
     useEffect(() => {
-        // initialize array of new buttons
-        const buttonsNew = [];
-        // loop through each movie in the search list
-        searchResults.forEach(({ imdbID }) => {
-            // get the button element (each movie div has classname of .item.[imdbID])
-            const button = document.querySelector(`#movie-search-list .${imdbID} button`);
-           // gray out button if # of nominations exceeded or movie already nominated
-            button.disabled = nominationListSelected.length === MAX_ENTRIES || nominationListSelected.map(m => m.imdbID).includes(imdbID);
-            // add button to array
-            buttonsNew.push(button);
+        // find all buttons in results => check if max nominations exceeded or result already nominated and disable
+        const buttonsArr = document.querySelectorAll(`#movie-search-list button`).forEach((button, index) => {
+            button.disabled = nominationListSelected.length >= MAX_ENTRIES || nominationListSelected.map(movie => movie.imdbID).includes(searchResults[index].imdbID);
+            return button;
         });
-        // set state of new buttons
-        setButtons(buttonsNew);
+
+        setButtons(buttonsArr);
     }, [searchResults, nominationListSelected]);
 
     // function to update page with data from previously searched term
@@ -147,7 +141,7 @@ const App = () => {
                                 optionSelected={categoryIndexSelected}
                                 onSelect={selectCategory}
                             />
-                            <span style={{color: numEntriesLeft===0 ? 'red' : ''}}>(LIMIT {MAX_ENTRIES})</span>
+                            <span style={{color: nominationListSelected.length >= MAX_ENTRIES ? 'red' : ''}}>(LIMIT {MAX_ENTRIES})</span>
                             <Button 
                                 buttonText="Reset" 
                                 buttonClick={resetNominations}
