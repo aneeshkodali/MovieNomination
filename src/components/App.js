@@ -82,7 +82,7 @@ const App = () => {
             // get the button element (each movie div has classname of .item.[imdbID])
             const button = document.querySelector(`#movie-search-list .${imdbID} button`);
            // gray out button if # of nominations exceeded or movie already nominated
-            if (numEntriesLeft <= 0 || nominationListSelected.map(m => m.imdbID).includes(imdbID)) {
+            if (nominationListSelected > MAX_ENTRIES || nominationListSelected.map(m => m.imdbID).includes(imdbID)) {
                 button.disabled = true;
             } else {
                 button.disabled = false;
@@ -146,19 +146,20 @@ const App = () => {
                         <h3>
                             Nominations for
                             <Dropdown 
-                                options={categoryList}
+                                options={nominationListOfLists.map(({ category, nominations}) => `${category} (${nominations.length})`)}
+                                //options={categoryList}
                                 optionSelected={categoryIndexSelected}
                                 onSelect={selectCategory}
                             />
-                            ({numEntriesLeft} Left)
+                            (LIMIT {MAX_ENTRIES})
                             <Button 
                                 buttonText="Reset" 
                                 buttonClick={resetNominations}
                             />
-                            <Button 
+                            {/*<Button 
                                 buttonText="RESET ALL" 
                                 buttonClick={resetNominationsAll}
-                            />
+                            />*/}
                         </h3>
                         
                     </div>
