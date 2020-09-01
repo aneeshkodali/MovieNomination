@@ -45,6 +45,12 @@ const App = () => {
         setNominationListofLists(nominationListOfLists);
     };
 
+    // function to reset ALL nomination list
+    const resetNominationsAll = () => {
+        setNominationListSelected([]);
+        setNominationListofLists(categoryList.map(cat => []));
+    };
+
     // function to remove nomination from list
     const removeNomination = (movie) => {
         nominationListOfLists[categoryIndexSelected] = nominationListOfLists[categoryIndexSelected].filter(m => m !== movie);
@@ -134,20 +140,20 @@ const App = () => {
                     <div id="nomination-header" className="ui header">
                         <h3>
                             Nominations for
-                            <span>
-                                <Dropdown 
-                                    options={categoryList}
-                                    optionSelected={categoryIndexSelected}
-                                    onSelect={selectCategory}
-                                />
-                            </span>
+                            <Dropdown 
+                                options={categoryList}
+                                optionSelected={categoryIndexSelected}
+                                onSelect={selectCategory}
+                            />
                             ({numEntriesLeft} Left)
-                            <span>
-                                <Button 
-                                    buttonText="Reset" 
-                                    buttonClick={resetNominations}
-                                />
-                            </span>
+                            <Button 
+                                buttonText="Reset" 
+                                buttonClick={resetNominations}
+                            />
+                            <Button 
+                                buttonText="RESET ALL" 
+                                buttonClick={resetNominationsAll}
+                            />
                         </h3>
                         
                     </div>
