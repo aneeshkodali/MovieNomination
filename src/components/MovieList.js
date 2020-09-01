@@ -1,33 +1,55 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
+import ButtonContext from '../contexts/ButtonContext';
+import Button from './Button';
 import Movie from './Movie';
+import './MovieList.css';
 
 const MovieList = ({ movieList }) => {
 
-    const divStyle = {
-                        height:"200px"
-                        , border:"1px solid black"
-                        , padding:"5px"
-                    };
+    
+
+        // bring in Button attributes
+        const context = useContext(ButtonContext);
+        const { buttonText, buttonClick, buttonClass } = context;
+
+    // Hook to set/update activeIndex
+    const [activeIndex, setActiveIndex] = useState(null);
+
+    // add click listener to div
+    const onTitleClick = (index) => {
+        const setIndex = index === activeIndex ? null : index;
+        setActiveIndex(setIndex);
+    };
 
 
     // create array of movie components
-    const moviesRendered = movieList.map(movie => {
-        const { imdbID } = movie;
+    const moviesRendered = movieList.map((movie, index) => {
+        const active = index === activeIndex ? 'active' : '';
+        const { imdbID, Title, Year, Poster } = movie;
         return (
-            <div 
-                key={imdbID}
-                style={divStyle} 
-                className={`item ${imdbID}`}
-            >
-                <Movie 
-                    movie={movie}
-                />
+            <div key={imdbID}>
+                <div 
+                    className={`title ${imdbID} ${active}`}
+                >
+                    <span onClick={() => onTitleClick(index)}>
+                        <i className="dropdown icon" />
+                        {Title} ({Year})
+                    </span>
+                    <Button
+                        buttonClass={buttonClass}
+                        buttonClick={() => buttonClick(movie)}
+                        buttonText={buttonText}
+                    />
+                </div>
+                <div className={`content ${active}`}>
+                    <Movie movie={movie} />  
+                </div>
             </div>
         )
     });
     
     return (
-        <div className="ui items">
+        <div className="ui accordion">
             {moviesRendered}
         </div>
     );
