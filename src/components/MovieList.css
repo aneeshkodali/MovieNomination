@@ -1,3 +1,12 @@
+.title {
+    font-size: 16px;
+}
+
+.title.active .title-text {
+    padding-bottom: 5px;
+    border-bottom: 2px solid #b7a261;
+}
+
 .ui.icon.button {
     margin-left: 5px;
     padding: 5px;

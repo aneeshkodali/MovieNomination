@@ -33,7 +33,7 @@ const MovieList = ({ movieList }) => {
                 >
                     <span onClick={() => onTitleClick(index)}>
                         <i className="dropdown icon" />
-                        {Title} ({Year})
+                        <span className="title-text">{Title} ({Year})</span>
                     </span>
                     <Button
                         buttonClass={buttonClass}

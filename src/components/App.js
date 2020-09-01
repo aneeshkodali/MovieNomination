@@ -76,7 +76,7 @@ const App = () => {
     // useEffect to set buttons state when results change or nominations change
     useEffect(() => {
         // find all buttons in results => check if max nominations exceeded or result already nominated and disable
-        const buttonsArr = document.querySelectorAll(`#movie-search-list button`).forEach((button, index) => {
+        const buttonsArr = document.querySelectorAll(`#movie-search-list-div button`).forEach((button, index) => {
             button.disabled = nominationListSelected.length >= MAX_ENTRIES || nominationListSelected.map(movie => movie.imdbID).includes(searchResults[index].imdbID);
             return button;
         });
@@ -104,7 +104,9 @@ const App = () => {
 
     return (
         <div>
-            <h1>Movie NomiNATION</h1>
+            <div id="main-header" className="ui header">
+                <h1>Movie NomiNATION</h1>
+            </div>
             <div id="searchbar">
                 <Searchbar onSearch={search} />
             </div>
@@ -112,7 +114,7 @@ const App = () => {
 
                 {/*div to render movies from search results*/}
                 {/*all buttons in this movie list are the same, so it's fine to use context*/}
-                <div id="movie-search-list" className="six wide column">
+                <div id="movie-search-list-div" className="six wide column">
                     <div className="ui header">
                         <h3>{resultsText}</h3>
                     </div>
@@ -131,7 +133,7 @@ const App = () => {
 
                 {/*div to show movies that have been nominate*/}
                 {/*again, all buttons in this list are the same, so it's fine to use context*/}
-                <div className="six wide column">
+                <div id="nomination-list-div" className="six wide column">
                     <div id="nomination-header" className="ui header">
                         <h3>
                             Nominations for
@@ -169,7 +171,7 @@ const App = () => {
                
 
                 {/*previous search terms (these are cached)*/}
-                <div className="four wide column">
+                <div id="prev-search-list-div" className="four wide column">
                         <div className="ui header">
                             <h3>Previous Search Terms</h3>
                         </div>

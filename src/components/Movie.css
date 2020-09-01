@@ -7,3 +7,27 @@
     right: 0;
     bottom: 0;
 }*/
+
+.ui.items > .item {
+    padding: 10px;
+}
+
+.ui.items > .item {
+    background-color: #eee;
+}
+
+.ui.items > .item > .content > .description {
+    color: #9b9b9b;
+}
+
+.ui.items > .item > .content > .meta {
+    color: #9b9b9b;
+}
+
+.ui.items > .item > .content > .header {
+    font-weight: 400;
+}
+
+.description {
+    color: #9b9b9b;
+}

@@ -1,10 +1,26 @@
 body {
     margin: 10px;
+    background-color: #f9f9f9;
+    /*font-family: Futura, Helvetica, Arial, sans-serif;*/
+}
+
+#main-header {
+    /*background-color: #efece3;*/
+    color: #b7a064;
 }
 
 #searchbar {
     margin-bottom: 20px;
 }
+
+#movie-search-list-div .ui.header, #nomination-list-div .ui.header, #prev-search-list-div .ui.header {
+    color: #b7a261;
+}
+
+/*#movie-search-list-div {
+    background-color: white;
+}*/
+
 
 
 /*.ui.header {
