@@ -151,7 +151,7 @@ const App = () => {
                                 optionSelected={categoryIndexSelected}
                                 onSelect={selectCategory}
                             />
-                            (LIMIT {MAX_ENTRIES})
+                            <span style={{color: numEntriesLeft===0 ? 'red' : ''}}>(LIMIT {MAX_ENTRIES})</span>
                             <Button 
                                 buttonText="Reset" 
                                 buttonClick={resetNominations}
