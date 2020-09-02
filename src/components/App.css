@@ -9,6 +9,13 @@ body {
     color: #b7a064;
 }
 
+#divider {
+    background-color: #efece3;
+    height: 40px;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+}
+
 #searchbar {
     margin-bottom: 20px;
 }
@@ -16,16 +23,6 @@ body {
 #movie-search-list-div .ui.header, #nomination-list-div .ui.header, #prev-search-list-div .ui.header {
     color: #b7a261;
 }
-
-/*#movie-search-list-div {
-    background-color: white;
-}*/
-
-
-
-/*.ui.header {
-    margin-bottom: 50px;
-}*/
 
 
 #nomination-header select, #nomination-header button {

@@ -16,7 +16,9 @@ const App = () => {
 
     
     // initialize category list
-    const categoryList = ['Action', 'Best Picture', 'Comedy', 'Drama', 'Worst Picture'];
+    const categoryList = ['Best Picture', 'Animated Feature Film', 'Cinematography', 'Costume Design'
+                            , 'Directing', 'Documentary', 'Film Editing'
+                        ].sort();
     // state to control which category label index selected
     const indexInitial="0";
     const [categoryIndexSelected, setCategoryIndexSelected] = useState(indexInitial);
@@ -106,6 +108,7 @@ const App = () => {
         <div>
             <div id="main-header" className="ui header">
                 <h1>Movie NomiNATION</h1>
+                <div id="divider"></div>
             </div>
             <div id="searchbar">
                 <Searchbar onSearch={search} />

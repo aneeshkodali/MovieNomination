@@ -20,8 +20,8 @@ const useMovies = (searchTerm) => {
     const search = async searchTerm => {
         // prevent api request with blank string
         if (!searchTerm) {
-            setSearchResults([]);
-            setResultsText('');
+            //setSearchResults([]);
+            //setResultsText('');
             return;
         };
 
