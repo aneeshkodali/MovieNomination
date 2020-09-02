@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import omdbUrl from '../apis/omdb';
+import getTMDBUrl from '../apis/tmdb'
 import axios from 'axios';
 
-const useMovies = (searchTerm) => {
+const useMovies = (term) => {
 
     // state for movie results
     const [searchResults, setSearchResults] = useState([]);
@@ -11,10 +12,46 @@ const useMovies = (searchTerm) => {
     // state for cache
     const [cache, setCache] = useState([]);
 
+    //const search = term => {
+       
+        //const searchOMDB = async (term) => {
+        //    const response = await axios.get(omdbUrl,{
+        //    params: {
+        //        type: 'movie',
+        //        r: 'json',
+        //        s: term
+        //        }
+        //    });
+        //    const { data } = response;
+        //    const message = data.Error ? data.Error : `Results for ${term}`;
+        //    setResultsText(message);
+
+        //    const results = data.Error ? [] : data.Search;
+        //    if (!results.length) {
+        //        setSearchResults([]);
+        //        return;
+        //    };
+        //    results.forEach(movie => {
+        //        const { imdbID } = movie;
+        //        const searchTMDB = async (imdbID) => {
+        //            const tmdbUrl = getTMDBUrl(imdbID);
+        //            const response = await axios.get(tmdbUrl);
+        //            const { data } = response;
+        //            const movieObj = {...movie, ...data};
+        //            //searchResults.push(movieObj);
+        //            setSearchResults([...searchResults, movieObj]);
+        //        };
+        //        searchTMDB(imdbID);
+        //    });
+        //    //setSearchResults(results);
+        //};
+        //searchOMDB(term);
+    //}
+
   
-    useEffect(() => {
-        search(searchTerm);
-    }, [searchTerm]);
+    //useEffect(() => {
+    //    search(searchTerm);
+    //}, [searchTerm]);
 
     // function to search for movie term
     const search = async searchTerm => {

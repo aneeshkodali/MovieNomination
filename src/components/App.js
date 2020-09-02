@@ -11,10 +11,11 @@ import './App.css';
 
 const App = () => {
     
-    // bring in variables from created hook to search for movies - initialize with no search
-    const [searchResults, setSearchResults, search, resultsText, setResultsText, cache, setCache] = useMovies('');
-
     const [searchTerm, setSearchTerm] = useState('captain');
+
+    // bring in variables from created hook to search for movies - initialize with no search
+    const [searchResults, setSearchResults, search, resultsText, setResultsText, cache, setCache] = useMovies(searchTerm);
+
     // initialize category list
     const categoryList = ['Best Picture', 'Animated Feature Film', 'Cinematography', 'Costume Design'
                             , 'Directing', 'Documentary', 'Film Editing'
