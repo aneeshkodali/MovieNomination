@@ -25,12 +25,10 @@ const MovieList = ({ movieList }) => {
     // create array of movie components
     const moviesRendered = movieList.map((movie, index) => {
         const active = index === activeIndex ? 'active' : '';
-        const { imdbID, Title, Year, Poster } = movie;
+        const { imdbID, Title, Year } = movie;
         return (
             <div key={imdbID}>
-                <div 
-                    className={`title ${active}`}
-                >
+                <div className={`title ${active}`}>
                     <span onClick={() => onTitleClick(index)}>
                         <i className="dropdown icon" />
                         <span className="title-text">{Title} ({Year})</span>
