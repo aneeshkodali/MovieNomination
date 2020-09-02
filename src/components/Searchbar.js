@@ -27,10 +27,12 @@ const Searchbar = ({ onSearch }) => {
     const submit = (event) => {
         event.preventDefault();
         onSearch(term);
+        setTerm('');
     }
 
     return (
         <div className="ui search">
+            <form onSubmit={submit}>
                 <div className="ui icon input">
                     <input
                         type="text"
@@ -41,7 +43,7 @@ const Searchbar = ({ onSearch }) => {
                     <i className="search icon" />
                 </div>
                 <Button buttonClick={submit} buttonText="Submit" />
-
+            </form>
         </div>
     );
 };
