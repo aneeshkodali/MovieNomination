@@ -14,7 +14,7 @@ const App = () => {
     // bring in variables from created hook to search for movies - initialize with no search
     const [searchResults, setSearchResults, search, resultsText, setResultsText, cache, setCache] = useMovies('');
 
-    
+    const [searchTerm, setSearchTerm] = useState('captain');
     // initialize category list
     const categoryList = ['Best Picture', 'Animated Feature Film', 'Cinematography', 'Costume Design'
                             , 'Directing', 'Documentary', 'Film Editing'
@@ -111,7 +111,7 @@ const App = () => {
                 <div id="divider"></div>
             </div>
             <div id="searchbar">
-                <Searchbar onSearch={search} />
+                <Searchbar searchTerm={searchTerm} onSearch={search} />
             </div>
             <div className="ui grid">
 

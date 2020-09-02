@@ -1,34 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Button from './Button';
 
-const Searchbar = ({ onSearch }) => {
+const Searchbar = ({ searchTerm, onSearch }) => {
 
     // state for term
-    const [term, setTerm] = useState('captain america');
-    //const [debouncedTerm, setDebouncedTerm] = useState(term);
-
-    ////  useEffect to set debouncedTerm equal to term after x ms of non-typing
-    // useEffct to perform search on debounced term
-    // useEffect(() => {
-    //    const timerId = setTimeout(() => {
-    //        //setDebouncedTerm(term);
-    //        onSearch(term);
-    //    }, 1000);
-    //    return () => {
-    //        clearTimeout(timerId);
-    //    };
-    //}, [term]);
-
-    // useEffct to perform search on debounced term
-    //useEffect(() => {
-    //    onSearch(debouncedTerm);
-    //}, [debouncedTerm])
-
+    const [term, setTerm] = useState(searchTerm);
+  
     const submit = (event) => {
         event.preventDefault();
         onSearch(term);
         setTerm('');
-    }
+    };
 
     return (
         <div className="ui search">
