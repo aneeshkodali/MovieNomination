@@ -4,7 +4,6 @@ import MovieList from './MovieList';
 import Dropdown from './Dropdown';
 import SearchHistory from './SearchHistory';
 import Button from './Button';
-import useMovies from '../hooks/searchMovies';
 import ButtonContext from '../contexts/ButtonContext';
 import axios from 'axios';
 import omdbUrl from '../apis/omdb';
@@ -15,8 +14,6 @@ import './App.css';
 const App = () => {
     
     
-    const [searchTerm, setSearchTerm] = useState('');
-
     const [searchResults, setSearchResults] = useState([]);
     const [resultsText, setResultsText] = useState('');
     const [cache, setCache] = useState([]);
@@ -140,7 +137,6 @@ const App = () => {
     
     // state for number of remaining entries
     const MAX_ENTRIES = 5;
-    const numEntriesLeft = MAX_ENTRIES - nominationListSelected.length;
 
 
     // state for buttons
