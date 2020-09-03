@@ -15,31 +15,31 @@ const App = () => {
     
     const [searchTerm, setSearchTerm] = useState('');
 
-    // bring in variables from created hook to search for movies - initialize with no search
-    //const [searchResults, setSearchResults, search, resultsText, setResultsText, cache, setCache] = useMovies(searchTerm);
     const [searchResults, setSearchResults] = useState([]);
     const [resultsText, setResultsText] = useState('');
     const [cache, setCache] = useState([]);
 
+    // function to search for a term
     const getResults = (searchTerm) => {
         // if term is empty string do nothing
         if (!searchTerm) return;
 
         // check if terms already in cache (i.e. already searched)
-    
         const termRecord = cache.find(({ term }) => term === searchTerm);
+        // if so, update state with that object
         if (termRecord) {
             setResultsText(resultsText);
             setSearchResults(searchResults);
-            setSearchTerm('');
         } else {
+            // else search api
             searchOMDB(searchTerm);
         };
-        //setSearchTerm('');
     };
 
+    // function to search api
     const searchOMDB = async (term) => {
 
+        // make axios request
         const response = await axios.get(omdbUrl,{
             params: {
                 type: 'movie',
@@ -48,20 +48,40 @@ const App = () => {
                 }
             });
 
+        // get data from response
         const { data } = response;
+        // update state for results and text
         const resultsText = data.Error ? data.Error : `Results for "${term}"`;
         setResultsText(resultsText);
-
         const searchResults = data.Error ? [] : data.Search;
         setSearchResults(searchResults);
 
+        // update cache
         const cacheObj = {'term': term, 'resultsText': resultsText, 'searchResults': searchResults};
-        addToCache(cacheObj);
+        addHistory(cacheObj);
     };
 
-    const addToCache = termObj => {
-        setCache([...cache, termObj]);
-    }
+    // function to add term object to cache
+    const addHistory = cacheObj => {
+        setCache([...cache, cacheObj]);
+    };
+
+    // function to update page with data from previously searched term
+    const retrieveHistory = (cacheObj) => {
+        // extracting keys
+        const { term, searchResults, resultsText } = cacheObj;
+        // update the search result list
+        setSearchResults(searchResults);
+        // update results message
+        setResultsText(resultsText);
+    };
+
+    // function to remove term and its data from search history
+    const removeHistory = (cacheObj) => {
+        // delete term entry in cache
+        setCache(cache.filter(termObj => termObj.term !== cacheObj.term));
+    };
+    
 
     // initialize category list
     const categoryList = ['Best Picture', 'Animated Feature Film', 'Cinematography', 'Costume Design'
@@ -70,8 +90,8 @@ const App = () => {
     // state to control which category label index selected
     const indexInitial="0";
     const [categoryIndexSelected, setCategoryIndexSelected] = useState(indexInitial);
-    const nominationListOfListsInitial = categoryList.map(cat => {
-        return {category: cat, nominations: []};
+    const nominationListOfListsInitial = categoryList.map(category => {
+        return {'category': category, 'nominations': []};
     });
     const [nominationListOfLists, setNominationListofLists] = useState(nominationListOfListsInitial);
     const nominationListSelectedInitial = nominationListOfLists[indexInitial].nominations
@@ -134,21 +154,6 @@ const App = () => {
         setButtons(buttonsArr);
     }, [searchResults, nominationListSelected]);
 
-    // function to update page with data from previously searched term
-    const retrieveHistory = (searchTermObj) => {
-        // extracting keys
-        const { term, searchResults, resultsText } = searchTermObj;
-        // update the search result list
-        setSearchResults(searchResults);
-        // update results message
-        setResultsText(resultsText);
-    };
-
-    // function to remove term and its data from search history
-    const removeHistory = (searchTermObj) => {
-        // delete term entry in cache
-        setCache(cache.filter(termObj => termObj.term !== searchTermObj.term));
-    };
 
 
 

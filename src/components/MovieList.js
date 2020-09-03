@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ButtonContext from '../contexts/ButtonContext';
 import Button from './Button';
 import Movie from './Movie';
@@ -6,11 +6,9 @@ import './MovieList.css';
 
 const MovieList = ({ movieList }) => {
 
-    
-
-        // bring in Button attributes
-        const context = useContext(ButtonContext);
-        const { buttonText, buttonClick, buttonClass } = context;
+    // bring in Button attributes
+    const context = useContext(ButtonContext);
+    const { buttonText, buttonClick, buttonClass } = context;
 
     // Hook to set/update activeIndex
     const [activeIndex, setActiveIndex] = useState(null);
@@ -20,6 +18,11 @@ const MovieList = ({ movieList }) => {
         const setIndex = index === activeIndex ? null : index;
         setActiveIndex(setIndex);
     };
+
+    // reset active index if list changes
+    useEffect(() => {
+        setActiveIndex(null);
+    }, [movieList])
 
 
     // create array of movie components
