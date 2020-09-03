@@ -11,7 +11,9 @@ import omdbUrl from '../apis/omdb';
 
 import './App.css';
 
+
 const App = () => {
+    
     
     const [searchTerm, setSearchTerm] = useState('');
 

@@ -1,4 +1,3 @@
-const KEY = 'd018ff16';
-const omdbUrl = `http://www.omdbapi.com/?apikey=${KEY}&`;
+const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&`;
 
 export default omdbUrl;
