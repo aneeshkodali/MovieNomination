@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Button from './Button';
 
-const Searchbar = ({ searchTerm, onSearch }) => {
+const Searchbar = ({ onSearch }) => {
 
     // state for term
-    const [term, setTerm] = useState(searchTerm);
+    const [term, setTerm] = useState('');
   
     const submit = (event) => {
         event.preventDefault();
         onSearch(term);
-        setTerm('');
     };
 
     return (

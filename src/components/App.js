@@ -6,15 +6,62 @@ import SearchHistory from './SearchHistory';
 import Button from './Button';
 import useMovies from '../hooks/searchMovies';
 import ButtonContext from '../contexts/ButtonContext';
+import axios from 'axios';
+import omdbUrl from '../apis/omdb';
 
 import './App.css';
 
 const App = () => {
     
-    const [searchTerm, setSearchTerm] = useState('captain');
+    const [searchTerm, setSearchTerm] = useState('');
 
     // bring in variables from created hook to search for movies - initialize with no search
-    const [searchResults, setSearchResults, search, resultsText, setResultsText, cache, setCache] = useMovies(searchTerm);
+    //const [searchResults, setSearchResults, search, resultsText, setResultsText, cache, setCache] = useMovies(searchTerm);
+    const [searchResults, setSearchResults] = useState([]);
+    const [resultsText, setResultsText] = useState('');
+    const [cache, setCache] = useState([]);
+
+    const getResults = (searchTerm) => {
+        // if term is empty string do nothing
+        if (!searchTerm) return;
+
+        // check if terms already in cache (i.e. already searched)
+    
+        const termRecord = cache.find(({ term }) => term === searchTerm);
+        if (termRecord) {
+            setResultsText(resultsText);
+            setSearchResults(searchResults);
+            setSearchTerm('');
+        } else {
+            searchOMDB(searchTerm);
+        };
+        //setSearchTerm('');
+    };
+
+    const searchOMDB = async (term) => {
+
+        const response = await axios.get(omdbUrl,{
+            params: {
+                type: 'movie',
+                r: 'json',
+                s: term
+                }
+            });
+
+        const { data } = response;
+        const resultsText = data.Error ? data.Error : `Results for "${term}"`;
+        setResultsText(resultsText);
+
+        const searchResults = data.Error ? [] : data.Search;
+        setSearchResults(searchResults);
+
+        const cacheObj = {'term': term, 'resultsText': resultsText, 'searchResults': searchResults};
+        addToCache(cacheObj);
+    };
+
+    const addToCache = termObj => {
+        setCache([...cache, termObj]);
+    }
 
     // initialize category list
     const categoryList = ['Best Picture', 'Animated Feature Film', 'Cinematography', 'Costume Design'
@@ -112,7 +159,7 @@ const App = () => {
                 <div id="divider"></div>
             </div>
             <div id="searchbar">
-                <Searchbar searchTerm={searchTerm} onSearch={search} />
+                <Searchbar onSearch={getResults} />
             </div>
             <div className="ui grid">
 
