@@ -1,16 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './Movie.css';
 
 const Movie = ({ movie }) => {
 
 
     const { Title, Year, Poster, imdbID } = movie;
-
-    //const divStyle = {height:"300px"};
-    //const imgDivStyle = {height:"100%"};
-    //const imgStyle = {height: "100%"};
-
- 
 
     return (
         <div className="ui items">
