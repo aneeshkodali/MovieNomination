@@ -45,7 +45,6 @@ const App = () => {
                 query: term
             }
         });
-        console.log(response);
         const {data} = response;
         const movies = data.results;
         const promises = await Promise.all(
@@ -54,9 +53,12 @@ const App = () => {
                 return axios.get(url);
             })
         );
-        setSearchResults(promises.map(promise => promise.data))
+        setSearchResults(promises.map(promise => promise.data));
+
+        // update cache
+        const cacheObj = {'term': term, 'searchResults': searchResults};
+        addHistory(cacheObj);
      
-    
     }
 
     //// function to search api
@@ -201,7 +203,7 @@ const App = () => {
                         value={{
                             buttonText: <i className="ui plus icon" />, 
                             buttonClick: (movie => addNomination(movie)),
-                            buttonClass: "ui positive icon button"
+                            buttonClass: "mini ui positive right floated button icon"
                             //buttonClass: "ui positive right floated icon button"
                         }}
                     >
