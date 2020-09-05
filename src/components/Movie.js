@@ -3,7 +3,6 @@ import React, { useState, useContext } from 'react';
 import ButtonContext from '../contexts/ButtonContext';
 import { tmdbPoster } from '../apis/tmdb';
 //import './Movie.css';
-import Button from './Button';
 
 const Movie = ({ movie }) => {
 
@@ -25,16 +24,20 @@ const Movie = ({ movie }) => {
     const overviewNew = overview.length > maxCharLen ? `${overview.substring(0,maxCharLen)}...` : overview;
 
 
+
+
     return (
         <div className="card">
             <div className="content">
                 <div className="header">
                     {title} ({release_date.substr(0,4)})
-                    <Button 
-                        buttonClass={`${buttonClass}`}
-                        buttonText={buttonText}
-                        buttonClick={() => buttonClick(movie)}
-                    />
+                    <button 
+                        className={`${buttonClass}`}
+                        onClick={() => buttonClick(movie)}
+                    >
+                        {buttonText}
+                    </button>
+
                 </div>
             </div>
             <div className="ui fade reveal">

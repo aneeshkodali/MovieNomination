@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Button from './Button';
 import './Searchbar.css';
 
 const Searchbar = ({ onSearch, loading }) => {
@@ -17,21 +16,21 @@ const Searchbar = ({ onSearch, loading }) => {
     return (
         <div className="ui search">
             <form onSubmit={submit}>
-                <div className="ui input">
+                <div className={`ui icon input ${loadingState}`}>
                     <input
                         type="text"
                         value={term}
                         placeholder="Enter a search term..."
                         onChange={(e) => setTerm(e.target.value)}
                     />
-                    <Button 
-                        buttonClick={submit} 
-                        buttonText={<i className="search icon" />}
-                        buttonClass={`ui ${loadingState} icon button`}
-                    />
-                    
+                    <i className="search icon" />
                 </div>
-                
+                <button 
+                    onClick={submit}
+                    className="ui button"
+                >
+                    Search
+                </button>
             </form>
         </div>
     );

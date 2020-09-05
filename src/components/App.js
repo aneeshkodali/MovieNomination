@@ -3,7 +3,6 @@ import Searchbar from './Searchbar';
 import MovieList from './MovieList';
 import Dropdown from './Dropdown';
 import SearchHistory from './SearchHistory';
-import Button from './Button';
 import ButtonContext from '../contexts/ButtonContext';
 import axios from 'axios';
 import { tmdbSearchUrl, tmdbMovieUrl } from '../apis/tmdb';
@@ -173,7 +172,7 @@ const App = () => {
     }, [searchResultsSelected, nominationListSelected]);
 
 
-
+  
 
 
     const showPrevResults = () => {
@@ -186,20 +185,21 @@ const App = () => {
 
     const resultsButtons = (
             <span>
-                <Button
-                    buttonText={<i className="chevron left icon" />}
-                    buttonClick={showPrevResults}
-                    buttonClass="ui icon button"
-                />
-                <Button
-                    buttonText={<i className="chevron right icon" />}
-                    buttonClick={showNextResults}
-                    buttonClass="ui icon button"
-                />
+                <button 
+                    className="ui icon button"
+                    onClick={showPrevResults}
+                >
+                    <i className="chevron left icon" />
+                </button>
+                <button
+                    className="ui icon button"
+                    onClick={showNextResults}
+                >
+                    <i className="chevron right icon" />
+                </button>
         </span>
         );
     
-
 
     return (
         <div>
@@ -247,14 +247,18 @@ const App = () => {
                                 onSelect={selectCategory}
                             />
                             <span style={{color: nominationListSelected.length >= MAX_ENTRIES ? 'red' : ''}}>(LIMIT {MAX_ENTRIES})</span>
-                            <Button 
-                                buttonText="Reset" 
-                                buttonClick={resetNominations}
-                            />
-                            {/*<Button 
-                                buttonText="RESET ALL" 
-                                buttonClick={resetNominationsAll}
-                            />*/}
+                            <button 
+                                className="ui button"
+                                onClick={resetNominations}
+                            >
+                                Reset
+                            </button>
+                            <button 
+                                onClick={resetNominationsAll}
+                                className="ui button"
+                            >
+                                Reset All
+                            </button>
                         </h3>
                         
                     </div>

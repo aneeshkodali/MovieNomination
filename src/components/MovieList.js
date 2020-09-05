@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Button from './Button';
 import Movie from './Movie';
 //import './MovieList.css';
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from './Button';
 import './SearchHistory.css';
 
 const SearchHistory = ({ cache, retrieveHistory, removeHistory }) => {
@@ -9,20 +8,19 @@ const SearchHistory = ({ cache, retrieveHistory, removeHistory }) => {
         return (
                 <li key={term} style={{marginBottom:"5px"}}>
                     <div className="ui buttons" style={{marginRight:"10px"}}>
-                        <Button
-                            //buttonText="Remember"
-                            buttonText={<i className="redo icon" />}
-
-                            buttonClick={() => retrieveHistory(searchTermObj)}
-                            buttonClass="ui positive icon button"
-                        />
+                        <button
+                            onClick={() => retrieveHistory(searchTermObj)}
+                            className="ui positive icon button"
+                        >
+                            <i className="redo icon" />
+                        </button>
                         {/*<div className="or"></div>*/}
-                        <Button
-                            //buttonText="Forget"
-                            buttonText={<i className="close icon" />}
-                            buttonClick={() => removeHistory(searchTermObj)}
-                            buttonClass="ui negative icon button"
-                        />
+                        <button
+                            onClick={() => removeHistory(searchTermObj)}
+                            className="ui negative icon button"
+                        >
+                            <i className="close icon" />
+                        </button>
                     </div>
                     "{term}"
                 </li>
