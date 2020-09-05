@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 
 import ButtonContext from '../contexts/ButtonContext';
 import { tmdbPoster } from '../apis/tmdb';
-import './Movie.css';
+//import './Movie.css';
 import Button from './Button';
 
 const Movie = ({ movie }) => {
@@ -24,63 +24,37 @@ const Movie = ({ movie }) => {
     const maxCharLen = 100;
     const overviewNew = overview.length > maxCharLen ? `${overview.substring(0,maxCharLen)}...` : overview;
 
-    // create div to show the image
-    const divImg = (<div 
-                        style={{height:"100%", width:"100%"}}
-                        >
-                        <img 
-                            style={{height:"100%", width:"100%"}}
-                            src={posterImg}  
-                            alt={title} 
-                        />
-                </div>);
 
-    // create div to show the movie info
-    const divContent = (<div className="content">
-                            <div className="header">{title} ({release_date.substr(0,4)})</div>
+    return (
+        <div className="card">
+            <div className="content">
+                <div className="header">
+                    {title} ({release_date.substr(0,4)})
+                    <Button 
+                        buttonClass={`${buttonClass}`}
+                        buttonText={buttonText}
+                        buttonClick={() => buttonClick(movie)}
+                    />
+                </div>
+            </div>
+            <div className="ui fade reveal">
+                <div className="visible content" style={{height:"100%", width:"100%"}}>
+                    <img src={posterImg} alt={title} style={{height:"100%", width: "100%"}} />
+                </div>
+                <div className="hidden content">
+                    <div className="ui card">
+                        <div className="content">
                             <div className="meta">Released: {release_date}</div>
                             <div className="meta">Runtime: {runtime} min.</div>
                             <div className="meta">{genreString}</div>
-                            {/*<div className="description">{overviewNew}</div>*/}
                             <div className="extra content">{tagline}</div>
-                        </div>);
-
-    // initialize div to show the image
-    const [divCard, setDivCard] = useState(divImg);
-
-    // initialize button visibility
-    const [buttonVis, setButtonVis] = useState('hidden');
-
-    // when hover over div, show content
-    const hoverEnter = () => {
-        setDivCard(divContent);
-        setButtonVis('visible');
-    };
-
-    // when leave div, show image
-    const hoverLeave = () => {
-        setDivCard(divImg);
-        setButtonVis('hidden');
-    }
-
-
-    
-    return (
-        <div className="card"
-            onMouseEnter={hoverEnter}
-            onMouseLeave={hoverLeave}
-        >
-            <div className="button-div" style={{display:"inlineBlock", visibility:buttonVis}}>
-                <Button 
-                buttonClass={`${buttonClass}`}
-                buttonText={buttonText}
-                buttonClick={() => buttonClick(movie)}
-                />
+                        </div>
+                    </div>
+                </div>
             </div>
-            {divCard}       
+        </div>
+    )
 
-        </div>       
-    );
 };
 
 export default Movie;

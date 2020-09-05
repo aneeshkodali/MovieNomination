@@ -160,7 +160,7 @@ const App = () => {
     useEffect(() => {
         // find all buttons in results => check if max nominations exceeded or result already nominated and disable
         const buttonsArr = document.querySelectorAll(`#movie-search-list-div button`).forEach((button, index) => {
-            button.disabled = nominationListSelected.length >= MAX_ENTRIES || nominationListSelected.map(movie => movie.imdbID).includes(searchResults[index].imdbID);
+            button.disabled = nominationListSelected.length >= MAX_ENTRIES || nominationListSelected.map(movie => movie.id).includes(searchResults[index].id);
             return button;
         });
 
@@ -192,7 +192,7 @@ const App = () => {
                         value={{
                             buttonText: <i className="ui add icon" />, 
                             buttonClick: (movie => addNomination(movie)),
-                            buttonClass: "mini ui positive button icon"
+                            buttonClass: "mini ui right floated positive button icon"
                             //buttonClass: "ui positive right floated icon button"
                         }}
                     >
