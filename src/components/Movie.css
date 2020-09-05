@@ -1,14 +1,19 @@
 
-
-/*.content {
+.ui.cards .card {
     position: relative;
-}*/
+    height: 300px;
+    width: 200px;
+    margin: 10px;
+}
 
-/*.item button {
-    position: absolute;*/
-    /*right: 0;*/
-    /*bottom: 0;
-}*/
+.ui.cards .button-div {
+    /*width: 30px;*/
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 5px;
+    /*text-align: center;*/
+}
 
 /*.ui.items > .item {
     padding: 10px;

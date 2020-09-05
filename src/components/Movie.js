@@ -25,7 +25,9 @@ const Movie = ({ movie }) => {
     const overviewNew = overview.length > maxCharLen ? `${overview.substring(0,maxCharLen)}...` : overview;
 
     // create div to show the image
-    const divImg = (<div style={{height:"100%", width:"100%"}}>
+    const divImg = (<div 
+                        style={{height:"100%", width:"100%"}}
+                        >
                         <img 
                             style={{height:"100%", width:"100%"}}
                             src={posterImg}  
@@ -35,41 +37,48 @@ const Movie = ({ movie }) => {
 
     // create div to show the movie info
     const divContent = (<div className="content">
-                            <Button 
-                                buttonClass={`${buttonClass}`}
-                                buttonText={buttonText}
-                                buttonClick={() => console.log(movie)}
-                            />
                             <div className="header">{title} ({release_date.substr(0,4)})</div>
                             <div className="meta">Released: {release_date}</div>
                             <div className="meta">Runtime: {runtime} min.</div>
                             <div className="meta">{genreString}</div>
-                            <div className="description">{overviewNew}</div>
+                            {/*<div className="description">{overviewNew}</div>*/}
                             <div className="extra content">{tagline}</div>
                         </div>);
 
     // initialize div to show the image
     const [divCard, setDivCard] = useState(divImg);
 
+    // initialize button visibility
+    const [buttonVis, setButtonVis] = useState('hidden');
+
     // when hover over div, show content
     const hoverEnter = () => {
         setDivCard(divContent);
+        setButtonVis('visible');
     };
 
     // when leave div, show image
     const hoverLeave = () => {
         setDivCard(divImg);
+        setButtonVis('hidden');
     }
 
 
     
     return (
         <div className="card"
-            style={{height:"300px", width:"200px", margin:"10px"}} 
             onMouseEnter={hoverEnter}
             onMouseLeave={hoverLeave}
         >
-            {divCard}
+            <div className="button-div" style={{display:"inlineBlock", visibility:buttonVis}}>
+                <Button 
+                buttonClass={`${buttonClass}`}
+                buttonText={buttonText}
+                buttonClick={() => buttonClick(movie)}
+                />
+            </div>
+            {divCard}       
+
         </div>       
     );
 };
