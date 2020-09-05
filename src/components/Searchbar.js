@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Button from './Button';
+import './Searchbar.css';
 
-const Searchbar = ({ onSearch }) => {
+const Searchbar = ({ onSearch, loading }) => {
 
     // state for term
     const [term, setTerm] = useState('');
@@ -10,6 +11,8 @@ const Searchbar = ({ onSearch }) => {
         event.preventDefault();
         onSearch(term);
     };
+
+    const loadingState = loading ? 'loading' : '';
 
     return (
         <div className="ui search">
@@ -24,7 +27,7 @@ const Searchbar = ({ onSearch }) => {
                     <Button 
                         buttonClick={submit} 
                         buttonText={<i className="search icon" />}
-                        buttonClass="ui icon button"
+                        buttonClass={`ui ${loadingState} icon button`}
                     />
                     
                 </div>

@@ -15,7 +15,9 @@ const App = () => {
     
     
     const [searchResults, setSearchResults] = useState([]);
+    const [resultsText, setResultsText] = useState('');
     const [cache, setCache] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const MAX_PAGES = 5;
     const MAX_RESULTS_PER_PAGE = 10;
@@ -29,6 +31,7 @@ const App = () => {
         const termRecord = cache.find(({ term }) => term === searchTerm);
         // if so, update state with that object
         if (termRecord) {
+            setResultsText(`Results for: "${searchTerm}"`)
             setSearchResults(searchResults);
         } else {
             // else search api
@@ -37,54 +40,40 @@ const App = () => {
     };
 
     // function to search TMDB
-    const searchTMDB = async (term) => {
+    const searchTMDB = async (searchTerm) => {
+
+        // set loading
+        setLoading(true);
 
         // make request
         const response = await axios.get(tmdbSearchUrl, {
             params: {
-                query: term
+                query: searchTerm
             }
         });
         const {data} = response;
         const movies = data.results;
+        if (!movies.length) {
+            setResultsText('No results found. Please try another search');
+            setLoading(false);
+            return;
+        }
         const promises = await Promise.all(
             movies.map(({ id }) => {
                 const url = tmdbMovieUrl(id);
                 return axios.get(url);
             })
         );
+        setLoading(false);
+        setResultsText(`Results for: "${searchTerm}"`)
         setSearchResults(promises.map(promise => promise.data));
 
         // update cache
-        const cacheObj = {'term': term, 'searchResults': searchResults};
+        const cacheObj = {'term': searchTerm, 'searchResults': searchResults};
         addHistory(cacheObj);
      
     }
 
-    //// function to search api
-    //const searchOMDB = async (term) => {
-
-    //    // make axios request
-    //    const response = await axios.get(omdbUrl,{
-    //        params: {
-    //            type: 'movie',
-    //            r: 'json',
-    //            s: term
-    //            }
-    //        });
-
-    //    // get data from response
-    //    const { data } = response;
-    //    // update state for results and text
-    //    const resultsText = data.Error ? data.Error : `Results for "${term}"`;
-    //    setResultsText(resultsText);
-    //    const searchResults = data.Error ? [] : data.Search;
-    //    setSearchResults(searchResults);
-
-    //    // update cache
-    //    const cacheObj = {'term': term, 'resultsText': resultsText, 'searchResults': searchResults};
-    //    addHistory(cacheObj);
-    //};
 
     // function to add term object to cache
     const addHistory = cacheObj => {
@@ -188,7 +177,7 @@ const App = () => {
                 <div id="divider"></div>
             </div>
             <div id="searchbar">
-                <Searchbar onSearch={getResults} />
+                <Searchbar onSearch={getResults} loading={loading} />
             </div>
             <div className="ui grid">
 
@@ -196,7 +185,7 @@ const App = () => {
                 {/*all buttons in this movie list are the same, so it's fine to use context*/}
                 <div id="movie-search-list-div" className="six wide column">
                     <div className="ui header">
-                        <h3>PLACEHOLDER</h3>
+                        <h3>{resultsText}</h3>
                     </div>
                     {/*pass button properties so all buttons in child components will be the same*/}
                     <ButtonContext.Provider 

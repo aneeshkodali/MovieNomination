@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import ButtonContext from '../contexts/ButtonContext';
 import { tmdbPoster } from '../apis/tmdb';
-//import './Movie.css';
+import './Movie.css';
 import Button from './Button';
 
 const Movie = ({ movie }) => {
@@ -14,26 +14,24 @@ const Movie = ({ movie }) => {
     const { poster_path, title, genres, overview, release_date, tagline, runtime } = movie;
 
     const posterImg = poster_path ? tmdbPoster(poster_path) : '/imageNotFound.jpg';
-    
-    console.log(movie);
-    
+        
     const genreString = genres.map(genre => genre.name).join(' | ');
 
     return (
         <div className="ui card fade reveal" style={{height:"300px", width:"200px"}}>
-            <img src={posterImg} alt={title} className="visible content" style={{height:"100%", width:"100%"}} />
-            <div className="hidden content">
+            <img src={posterImg}  className="hidden content" alt={title}style={{height:"100%", width:"100%"}} />
+            <div className="visible content">
                 <Button 
                     buttonClass={buttonClass}
                     buttonText={buttonText}
-                    buttonClick={buttonClick}
+                    buttonClick={() => console.log(movie)}
                 />
                 <div className="header">
                     {title} ({release_date.substr(0,4)})
                 </div>
                 <div className="meta">Released: {release_date}</div>
                 <div className="meta">Runtime: {runtime} min.</div>
-                <div className="meta">{genreString}</div>
+                {/*<div className="meta">{genreString}</div>*/}
                 <div className="description">{tagline}</div>
             </div>     
         </div>       
