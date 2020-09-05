@@ -13,14 +13,13 @@ import './App.css';
 
 const App = () => {
     
-    
+    const MAX_RESULTS_PER_PAGE = 5;
+    const [searchResultsSelected, setSearchResultsSelected] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [resultsText, setResultsText] = useState('');
     const [cache, setCache] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const MAX_PAGES = 5;
-    const MAX_RESULTS_PER_PAGE = 10;
 
     // function to search for a term
     const getResults = (searchTerm) => {
@@ -31,12 +30,15 @@ const App = () => {
         const termRecord = cache.find(({ term }) => term === searchTerm);
         // if so, update state with that object
         if (termRecord) {
+            const { term, searchResults } = termRecord;
             setResultsText(`Results for: "${searchTerm}"`)
             setSearchResults(searchResults);
+            setSearchResultsSelected(searchResults.slice(0, MAX_RESULTS_PER_PAGE));
         } else {
             // else search api
             searchTMDB(searchTerm);
         };
+        
     };
 
     // function to search TMDB
@@ -65,11 +67,13 @@ const App = () => {
             })
         );
         setLoading(false);
-        setResultsText(`Results for: "${searchTerm}"`)
-        setSearchResults(promises.map(promise => promise.data));
+        setResultsText(`Results for: "${searchTerm}"`);
+        const movieData = promises.map(promise => promise.data);
+        setSearchResults(movieData);
+        setSearchResultsSelected(movieData.slice(0, MAX_RESULTS_PER_PAGE));
 
         // update cache
-        const cacheObj = {'term': searchTerm, 'searchResults': searchResults};
+        const cacheObj = {'term': searchTerm, 'searchResults': movieData};
         addHistory(cacheObj);
      
     }
@@ -86,8 +90,9 @@ const App = () => {
         const { term, searchResults } = cacheObj;
         // update the search result list
         setSearchResults(searchResults);
+        setSearchResultsSelected(searchResults.slice(0, MAX_RESULTS_PER_PAGE));
         // update results message
-        //setResultsText(resultsText);
+        setResultsText(resultsText);
     };
 
     // function to remove term and its data from search history
@@ -159,15 +164,41 @@ const App = () => {
     // useEffect to set buttons state when results change or nominations change
     useEffect(() => {
         // find all buttons in results => check if max nominations exceeded or result already nominated and disable
-        const buttonsArr = document.querySelectorAll(`#movie-search-list-div button`).forEach((button, index) => {
-            button.disabled = nominationListSelected.length >= MAX_ENTRIES || nominationListSelected.map(movie => movie.id).includes(searchResults[index].id);
+        const buttonsArr = document.querySelectorAll(`#movie-search-list-div .ui.cards button`).forEach((button, index) => {
+            button.disabled = nominationListSelected.length >= MAX_ENTRIES || nominationListSelected.map(movie => movie.id).includes(searchResultsSelected[index].id);
             return button;
         });
 
         setButtons(buttonsArr);
-    }, [searchResults, nominationListSelected]);
+    }, [searchResultsSelected, nominationListSelected]);
 
 
+
+
+
+    const showPrevResults = () => {
+        console.log('PREV RESULTS')
+    };
+
+    const showNextResults = () => {
+        console.log('NEXT RESULTS')
+    };
+
+    const resultsButtons = (
+            <span>
+                <Button
+                    buttonText={<i className="chevron left icon" />}
+                    buttonClick={showPrevResults}
+                    buttonClass="ui icon button"
+                />
+                <Button
+                    buttonText={<i className="chevron right icon" />}
+                    buttonClick={showNextResults}
+                    buttonClass="ui icon button"
+                />
+        </span>
+        );
+    
 
 
     return (
@@ -185,7 +216,10 @@ const App = () => {
                 {/*all buttons in this movie list are the same, so it's fine to use context*/}
                 <div id="movie-search-list-div" className="six wide column">
                     <div className="ui header">
-                        <h3>{resultsText}</h3>
+                        <h3>
+                            {resultsText}
+                           {searchResults.length ? resultsButtons : ''}
+                        </h3>
                     </div>
                     {/*pass button properties so all buttons in child components will be the same*/}
                     <ButtonContext.Provider 
@@ -196,7 +230,7 @@ const App = () => {
                             //buttonClass: "ui positive right floated icon button"
                         }}
                     >
-                        <MovieList movieList={searchResults} />
+                        <MovieList movieList={searchResultsSelected} />
                     </ButtonContext.Provider>
                 </div>
 
