@@ -201,7 +201,7 @@ const App = () => {
                     {/*pass button properties so all buttons in child components will be the same*/}
                     <ButtonContext.Provider 
                         value={{
-                            buttonText: <i className="ui plus icon" />, 
+                            buttonText: <i className="ui add icon" />, 
                             buttonClick: (movie => addNomination(movie)),
                             buttonClass: "mini ui positive right floated button icon"
                             //buttonClass: "ui positive right floated icon button"

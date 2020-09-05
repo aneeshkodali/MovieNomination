@@ -11,14 +11,12 @@ const MovieList = ({ movieList }) => {
     const moviesRendered = movieList.map((movie) => {
         const { id, title } = movie;
         return (
-            <div key={id}>
-               <Movie movie={movie} />
-            </div>
+            <Movie key={id} movie={movie} />
         )
     });
     
     return (
-        <div>
+        <div className="ui cards">
             {moviesRendered}
         </div>
     );
