@@ -248,7 +248,7 @@ const App = () => {
                         value={{
                             buttonText: <i className="ui add icon" />, 
                             buttonClick: (movie => addNomination(movie)),
-                            buttonClass: "mini ui right floated positive button icon"
+                            buttonClass: "mini ui positive button icon"
                             //buttonClass: "ui positive right floated icon button"
                         }}
                     >
@@ -290,7 +290,7 @@ const App = () => {
                         value={{
                             buttonText: <i className="ui minus icon" />, 
                             buttonClick: (movie => removeNomination(movie)),
-                            buttonClass: "mini ui right floated negative icon button"
+                            buttonClass: "mini ui negative icon button"
                         }}
                     >
                         <MovieList movieList={nominationListSelected} />
