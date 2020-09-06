@@ -16,21 +16,20 @@ const Searchbar = ({ onSearch, loading }) => {
     return (
         <div className="ui search">
             <form onSubmit={submit}>
-                <div className={`ui icon input ${loadingState}`}>
+                <div className="ui action input">
                     <input
                         type="text"
                         value={term}
-                        placeholder="Enter a search term..."
+                        placeholder="Enter a seach term..."
                         onChange={(e) => setTerm(e.target.value)}
                     />
-                    <i className="search icon" />
+                    <button 
+                        className={`ui ${loadingState} icon button`}
+                        onClick={submit}
+                    >
+                        <i className="search icon" />
+                    </button>
                 </div>
-                <button 
-                    onClick={submit}
-                    className="ui button"
-                >
-                    Search
-                </button>
             </form>
         </div>
     );
