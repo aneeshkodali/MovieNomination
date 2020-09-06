@@ -304,7 +304,7 @@ const App = () => {
                         <div className="ui header">
                             <h3>
                                 Search History
-                                <button
+                                <button id="clear-hist-btn"
                                     className="ui button"
                                     onClick={removeHistoryAll}
                                 >
