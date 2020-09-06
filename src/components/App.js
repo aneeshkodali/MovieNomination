@@ -115,6 +115,10 @@ const App = () => {
         // delete term entry in cache
         setCache(cache.filter(termObj => termObj.term !== cacheObj.term));
     };
+
+    const removeHistoryAll = () => {
+        setCache([]);
+    }
     
 
     // initialize category list
@@ -286,7 +290,7 @@ const App = () => {
                         value={{
                             buttonText: <i className="ui minus icon" />, 
                             buttonClick: (movie => removeNomination(movie)),
-                            buttonClass: "mini ui negative icon button"
+                            buttonClass: "mini ui right floated negative icon button"
                         }}
                     >
                         <MovieList movieList={nominationListSelected} />
@@ -298,7 +302,15 @@ const App = () => {
                 {/*previous search terms (these are cached)*/}
                 <div id="prev-search-list-div" className="four wide column">
                         <div className="ui header">
-                            <h3>Previous Search Terms</h3>
+                            <h3>
+                                Search History
+                                <button
+                                    className="ui button"
+                                    onClick={removeHistoryAll}
+                                >
+                                    Clear
+                                </button>
+                            </h3>
                         </div>
                     <div id="search-history">
                         <SearchHistory
