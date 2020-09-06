@@ -108,8 +108,7 @@ const App = () => {
     
 
     // initialize category list
-    const categoryList = ['Best Picture', 'Animated Feature Film', 'Cinematography', 'Costume Design'
-                            , 'Directing', 'Documentary', 'Film Editing'
+    const categoryList = ['Action', 'Drama', 'Comedy', 'Suspense/Thriller', 'Horror', 'Documentary'
                         ].sort();
     // state to control which category label index selected
     const indexInitial="0";
@@ -164,9 +163,8 @@ const App = () => {
     const MAX_ENTRIES = 5;
 
 
-    // state for buttons
-    const [buttons, setButtons] = useState([]);
     // useEffect to set buttons state when results change or nominations change
+    const [buttonsMovies, setButtonsMovies] = useState([]);
     useEffect(() => {
         // find all buttons in results => check if max nominations exceeded or result already nominated and disable
         const buttonsArr = document.querySelectorAll(`#movie-search-list-div .ui.cards button`).forEach((button, index) => {
@@ -174,35 +172,45 @@ const App = () => {
             return button;
         });
 
-        setButtons(buttonsArr);
+        setButtonsMovies(buttonsArr);
     }, [searchResultsSelected, nominationListSelected]);
 
+    // initialize results index for pagination
+    const [currentResultIndex, setCurrentResultIndex] = useState(0);
+    const maxResultIndex = searchResults.length;
+    const nextResultIndex = Math.min(maxResultIndex, currentResultIndex+MAX_RESULTS_PER_PAGE);
+    const prevResultIndex = Math.max(0, currentResultIndex-MAX_RESULTS_PER_PAGE);
 
-  
-
+    // whenever the search results change, reset to 0
+    useEffect(() => {
+        setCurrentResultIndex(0);
+    }, [searchResults]);
 
     const showPrevResults = () => {
-        console.log('PREV RESULTS')
+        setCurrentResultIndex(prevResultIndex);
     };
 
+    // whenever the current results display changes, update button state
+    const [nextResultsBtn, setNextResultsBtn] = useState('');
     const showNextResults = () => {
-        console.log('NEXT RESULTS')
+        setCurrentResultIndex(nextResultIndex);
     };
 
     const resultsButtons = (
             <span>
-                <button 
-                    className="ui icon button"
+                <button id="prev-results-btn"
+                    className={`ui icon ${currentResultIndex===0 ? 'disabled' : ''} button`}
                     onClick={showPrevResults}
                 >
                     <i className="chevron left icon" />
                 </button>
-                <button
-                    className="ui icon button"
+                <button 
+                    className={`ui icon ${currentResultIndex===maxResultIndex ? 'disabled' : ''} button`}
                     onClick={showNextResults}
                 >
                     <i className="chevron right icon" />
                 </button>
+                {currentResultIndex}-{nextResultIndex} of {maxResultIndex}
         </span>
         );
     
