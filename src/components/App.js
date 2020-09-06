@@ -11,6 +11,9 @@ import './App.css';
 
 
 const App = () => {
+
+    // state for searchbar text
+    const [searchBarText, setSearchBarText] = useState('');
     
     const MAX_RESULTS_PER_PAGE = 5;
     const [searchResultsSelected, setSearchResultsSelected] = useState([]);
@@ -37,6 +40,8 @@ const App = () => {
             // else search api
             searchTMDB(searchTerm);
         };
+        // clear search bar text
+        setSearchBarText('');
         
     };
 
@@ -66,13 +71,14 @@ const App = () => {
             })
         );
         setLoading(false);
-        setResultsText(`Results for: "${searchTerm}"`);
+        const text = `Results for: "${searchTerm}"`
+        setResultsText(text);
         const movieData = promises.map(promise => promise.data);
         setSearchResults(movieData);
         setSearchResultsSelected(movieData.slice(0, MAX_RESULTS_PER_PAGE));
 
         // update cache
-        const cacheObj = {'term': searchTerm, 'searchResults': movieData};
+        const cacheObj = {'term': searchTerm, 'resultsText': text, 'searchResults': movieData};
         addHistory(cacheObj);
      
     }
@@ -86,7 +92,7 @@ const App = () => {
     // function to update page with data from previously searched term
     const retrieveHistory = (cacheObj) => {
         // extracting keys
-        const { term, searchResults } = cacheObj;
+        const { term, resultsText, searchResults } = cacheObj;
         // update the search result list
         setSearchResults(searchResults);
         setSearchResultsSelected(searchResults.slice(0, MAX_RESULTS_PER_PAGE));
@@ -208,7 +214,12 @@ const App = () => {
                 <div id="divider"></div>
             </div>
             <div id="searchbar">
-                <Searchbar onSearch={getResults} loading={loading} />
+                <Searchbar 
+                    searchBarText={searchBarText}
+                    setSearchBarText={setSearchBarText}
+                    search={getResults}
+                    loading={loading}
+                />
             </div>
             <div className="ui grid">
 

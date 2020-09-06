@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import './Searchbar.css';
 
-const Searchbar = ({ onSearch, loading }) => {
+const Searchbar = ({ searchBarText, setSearchBarText, search, loading }) => {
 
-    // state for term
-    const [term, setTerm] = useState('');
   
     const submit = (event) => {
         event.preventDefault();
-        onSearch(term);
+        search(searchBarText);
     };
 
     const loadingState = loading ? 'loading' : '';
@@ -19,9 +17,9 @@ const Searchbar = ({ onSearch, loading }) => {
                 <div className="ui action input">
                     <input
                         type="text"
-                        value={term}
+                        value={searchBarText}
                         placeholder="Enter a seach term..."
-                        onChange={(e) => setTerm(e.target.value)}
+                        onChange={(e) => setSearchBarText(e.target.value)}
                     />
                     <button 
                         className={`ui ${loadingState} icon button`}
