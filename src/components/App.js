@@ -16,11 +16,23 @@ const App = () => {
     const [searchBarText, setSearchBarText] = useState('');
     
     const MAX_RESULTS_PER_PAGE = 5;
-    const [searchResultsSelected, setSearchResultsSelected] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
+     // initialize results index for pagination
+    const [currentResultIndex, setCurrentResultIndex] = useState(0);
+    const searchResultsSelected = searchResults.slice(currentResultIndex, currentResultIndex+MAX_RESULTS_PER_PAGE);
+
     const [resultsText, setResultsText] = useState('');
     const [cache, setCache] = useState([]);
     const [loading, setLoading] = useState(false);
+
+      
+   
+       // whenever the search results change, reset to 0
+       useEffect(() => {
+           setCurrentResultIndex(0);
+       }, [searchResults]);
+   
+    
 
 
     // function to search for a term
@@ -35,7 +47,6 @@ const App = () => {
             const { term, searchResults } = termRecord;
             setResultsText(`Results for: "${searchTerm}"`)
             setSearchResults(searchResults);
-            setSearchResultsSelected(searchResults.slice(0, MAX_RESULTS_PER_PAGE));
         } else {
             // else search api
             searchTMDB(searchTerm);
@@ -75,8 +86,8 @@ const App = () => {
         setResultsText(text);
         const movieData = promises.map(promise => promise.data);
         setSearchResults(movieData);
-        setSearchResultsSelected(movieData.slice(0, MAX_RESULTS_PER_PAGE));
 
+        
         // update cache
         const cacheObj = {'term': searchTerm, 'resultsText': text, 'searchResults': movieData};
         addHistory(cacheObj);
@@ -95,7 +106,6 @@ const App = () => {
         const { term, resultsText, searchResults } = cacheObj;
         // update the search result list
         setSearchResults(searchResults);
-        setSearchResultsSelected(searchResults.slice(0, MAX_RESULTS_PER_PAGE));
         // update results message
         setResultsText(resultsText);
     };
@@ -175,42 +185,31 @@ const App = () => {
         setButtonsMovies(buttonsArr);
     }, [searchResultsSelected, nominationListSelected]);
 
-    // initialize results index for pagination
-    const [currentResultIndex, setCurrentResultIndex] = useState(0);
-    const maxResultIndex = searchResults.length;
-    const nextResultIndex = Math.min(maxResultIndex, currentResultIndex+MAX_RESULTS_PER_PAGE);
-    const prevResultIndex = Math.max(0, currentResultIndex-MAX_RESULTS_PER_PAGE);
-
-    // whenever the search results change, reset to 0
-    useEffect(() => {
-        setCurrentResultIndex(0);
-    }, [searchResults]);
-
     const showPrevResults = () => {
-        setCurrentResultIndex(prevResultIndex);
+        setCurrentResultIndex(currentResultIndex-MAX_RESULTS_PER_PAGE)
     };
 
     // whenever the current results display changes, update button state
     const [nextResultsBtn, setNextResultsBtn] = useState('');
     const showNextResults = () => {
-        setCurrentResultIndex(nextResultIndex);
+        setCurrentResultIndex(currentResultIndex+MAX_RESULTS_PER_PAGE)
     };
 
     const resultsButtons = (
             <span>
-                <button id="prev-results-btn"
-                    className={`ui icon ${currentResultIndex===0 ? 'disabled' : ''} button`}
+                <button 
+                    className={`ui icon ${currentResultIndex<=0 ? 'disabled' : ''} button`}
                     onClick={showPrevResults}
                 >
                     <i className="chevron left icon" />
                 </button>
                 <button 
-                    className={`ui icon ${currentResultIndex===maxResultIndex ? 'disabled' : ''} button`}
+                    className={`ui icon ${currentResultIndex+MAX_RESULTS_PER_PAGE>=searchResults.length ? 'disabled' : ''} button`}
                     onClick={showNextResults}
                 >
                     <i className="chevron right icon" />
                 </button>
-                {currentResultIndex}-{nextResultIndex} of {maxResultIndex}
+                {currentResultIndex+1}-{Math.min(searchResults.length, currentResultIndex+MAX_RESULTS_PER_PAGE)} of {searchResults.length}
         </span>
         );
     
