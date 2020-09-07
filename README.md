@@ -8,7 +8,8 @@ A simple app that lets you nominate movies for a ficticious awards show. A movie
 ## How It Works
 VIDEO
 Some features of the app include:
-- for a given search term, see 20 movies and some info about them
+- for a given search term, see the first 20 results
+- click on a move to see more information about it
 - choose a category for which you want to make nominations
 -  retrieve previously searched movies using the 'Search History'
 
