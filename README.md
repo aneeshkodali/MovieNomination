@@ -3,20 +3,20 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 # Movie NomiNATION
 
 ## What is It?
-A simple app that lets you nominate movies for a ficticious awards show. A movie can only be nominated once in a category, but you can nominate the same movie for more than one category. There is a limit of 5 nominations per category (you are not required to make nominations for every category; some can be left blank);
+A site that lets you nominate movies for different categories (perhaps for a movie night or for an awards show). 
 
-## How It Works
-VIDEO
+## How It Works ([Demo](https://youtu.be/cV1mJy3xVSk))
 Some features of the app include:
 - for a given search term, see the first 20 results
 - click on a move to see more information about it
 - choose a category for which you want to make nominations
+- add movies to and remove movies from categories (a movie can only be nominated once per category, but a movie can be nominated for multiple categories)
 -  retrieve previously searched movies using the 'Search History'
 
 ## Technologies
 - React - front end
 - Semantic UI - styling
-- TMDB - 3rd party database to which search requests are made
+- TMDB - 3rd party movie database to which search requests are made
 
 
 ## Available Scripts
