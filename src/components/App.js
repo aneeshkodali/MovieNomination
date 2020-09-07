@@ -124,7 +124,7 @@ const App = () => {
     
 
     // initialize category list
-    const categoryList = ['Action', 'Drama', 'Comedy', 'Suspense/Thriller', 'Horror', 'Documentary'
+    const categoryList = ['Action', 'Animation', 'Drama', 'Comedy', 'Romance'
                         ].sort();
     // state to control which category label index selected
     const indexInitial="0";

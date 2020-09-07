@@ -83,7 +83,7 @@ const Movie = ({ movie }) => {
     const genreString = genres.map(genre => genre.name).join(' | ');
 
     // format overview
-    const maxCharLen = 200;
+    const maxCharLen = 300;
     const overviewNew = overview.length > maxCharLen ? `${overview.substring(0,maxCharLen)}...` : overview;
 
 
@@ -98,8 +98,8 @@ const Movie = ({ movie }) => {
                     <div className="meta">Released: {release_date}</div>
                         <div className="meta">Runtime: {runtime} min.</div>
                         <div className="meta">{genreString}</div>
-                        {/*<div className="description">{overview}</div>*/}
-                        <div className="extra content">{tagline}</div>
+                        <div className="extra content"><em>{tagline}</em></div>
+                        <div className="description">{overviewNew}</div>
                 </div>
             </div>
         </div>
