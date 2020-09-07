@@ -1,5 +1,23 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Movie NomiNATION
+
+## What is It?
+A simple app that lets you nominate movies for a ficticious awards show. A movie can only be nominated once in a category, but you can nominate the same movie for more than one category. There is a limit of 5 nominations per category (you are not required to make nominations for every category; some can be left blank);
+
+## How It Works
+VIDEO
+Some features of the app include:
+- for a given search term, see 20 movies and some info about them
+- choose a category for which you want to make nominations
+-  retrieve previously searched movies using the 'Search History'
+
+## Technologies
+- React - front end
+- Semantic UI - styling
+- TMDB - 3rd party database to which search requests are made
+
+
 ## Available Scripts
 
 In the project directory, you can run:
