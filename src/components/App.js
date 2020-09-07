@@ -181,7 +181,7 @@ const App = () => {
     const [buttonsMovies, setButtonsMovies] = useState([]);
     useEffect(() => {
         // find all buttons in results => check if max nominations exceeded or result already nominated and disable
-        const buttonsArr = document.querySelectorAll(`#movie-search-list-div .ui.cards button`).forEach((button, index) => {
+        const buttonsArr = document.querySelectorAll(`#movie-search-list-div .ui.accordion button`).forEach((button, index) => {
             button.disabled = nominationListSelected.length >= MAX_ENTRIES || nominationListSelected.map(movie => movie.id).includes(searchResultsSelected[index].id);
             return button;
         });
