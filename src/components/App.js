@@ -75,12 +75,14 @@ const App = () => {
             setLoading(false);
             return;
         }
+        // make another request to get movie data using movie id
         const promises = await Promise.all(
             movies.map(({ id }) => {
                 const url = tmdbMovieUrl(id);
                 return axios.get(url);
             })
         );
+        // update search results, results message
         setLoading(false);
         const text = `Results for: "${searchTerm}"`
         setResultsText(text);
@@ -199,6 +201,7 @@ const App = () => {
         setCurrentResultIndex(currentResultIndex+MAX_RESULTS_PER_PAGE)
     };
 
+    // JSX element for results pagination
     const resultsButtons = (
             <span>
                 <button 
@@ -270,7 +273,6 @@ const App = () => {
                                 optionSelected={categoryIndexSelected}
                                 onSelect={selectCategory}
                             />
-                            {/*<span style={{color: nominationListSelected.length >= MAX_ENTRIES ? 'red' : ''}}>(LIMIT {MAX_ENTRIES})</span>*/}
                             <span>(Limit {MAX_ENTRIES})</span>
 
                             <button 

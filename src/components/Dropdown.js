@@ -17,7 +17,6 @@ const Dropdown = ({ options, optionSelected, onSelect }) => {
                 className="ui dropdown"
                 value={optionSelected}
                 onChange={(e) => onSelect(e)} 
-                //className="ui dropdown"
             >
                 {optionsRendered}
             </select>
