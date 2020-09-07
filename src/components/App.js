@@ -222,7 +222,9 @@ const App = () => {
         <div>
             <div id="main-header" className="ui header">
                 <h1>Movie NomiNATION</h1>
-                <div id="divider"></div>
+                <div id="divider">
+                    <span>{nominationListSelected.length >= MAX_ENTRIES ? `You have nominated ${MAX_ENTRIES} movies for this category` : ''}</span>
+                </div>
             </div>
             <div id="searchbar">
                 <Searchbar 
@@ -268,16 +270,18 @@ const App = () => {
                                 optionSelected={categoryIndexSelected}
                                 onSelect={selectCategory}
                             />
-                            <span style={{color: nominationListSelected.length >= MAX_ENTRIES ? 'red' : ''}}>(LIMIT {MAX_ENTRIES})</span>
+                            {/*<span style={{color: nominationListSelected.length >= MAX_ENTRIES ? 'red' : ''}}>(LIMIT {MAX_ENTRIES})</span>*/}
+                            <span>(Limit {MAX_ENTRIES})</span>
+
                             <button 
-                                className="ui button"
+                                className="ui small button"
                                 onClick={resetNominations}
                             >
                                 Reset
                             </button>
                             <button 
                                 onClick={resetNominationsAll}
-                                className="ui button"
+                                className="ui small button"
                             >
                                 Reset All
                             </button>
@@ -305,7 +309,7 @@ const App = () => {
                             <h3>
                                 Search History
                                 <button id="clear-hist-btn"
-                                    className="ui button"
+                                    className="ui mini button"
                                     onClick={removeHistoryAll}
                                 >
                                     Clear

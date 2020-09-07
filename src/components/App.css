@@ -2,6 +2,11 @@ body {
     margin: 20px;
     background-color: #f9f9f9;
     /*font-family: Futura, Helvetica, Arial, sans-serif;*/
+    /*font-weight: 300;*/
+}
+
+.ui.header h1, .ui.header h3 {
+    font-weight: 300;
 }
 
 #main-header {
@@ -14,6 +19,11 @@ body {
     height: 40px;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
+    text-align: center;
+}
+
+#divider span {
+    color: black
 }
 
 #searchbar {
@@ -22,13 +32,33 @@ body {
 
 #movie-search-list-div .ui.header, #nomination-list-div .ui.header, #prev-search-list-div .ui.header {
     color: #b7a261;
+    height: 40px;
+    /*bottom: 500px;*/
 }
 
+#nomination-header select {
+    font-size: 14px;
+    padding: 0;
+    /*height: 30px;*/
+    /*top: 7px;*/
+    /*padding-bottom: 0;*/
+    /*border-bottom: 0;*/
+    /*bottom: 10px;*/
+    /*height: 100%;*/
+    /*height: 30px;*/
+    /*border-bottom: 0;*/
+    /*outline: 1px solid black;*/
+}
 
 #nomination-header select, #nomination-header button, #clear-hist-btn {
-    cursor: pointer;
+    /*cursor: pointer;*/
     margin: 0 5px;
     /*border: 0;*/
     /*padding-bottom: 0;*/
-    /*outline: 1px solid black;*/
+    /*outline: 1px solid rgba(34,36,37,.15);*/
+}
+
+#nomination-header button, #clear-hist-btn {
+    padding: 5px;
+    font-size: 14px;
 }

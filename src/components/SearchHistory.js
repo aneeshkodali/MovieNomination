@@ -10,14 +10,14 @@ const SearchHistory = ({ cache, retrieveHistory, removeHistory }) => {
                     <div className="ui buttons" style={{marginRight:"10px"}}>
                         <button
                             onClick={() => retrieveHistory(searchTermObj)}
-                            className="ui positive icon button"
+                            className="ui mini positive icon button"
                         >
                             <i className="redo icon" />
                         </button>
                         {/*<div className="or"></div>*/}
                         <button
                             onClick={() => removeHistory(searchTermObj)}
-                            className="ui negative icon button"
+                            className="ui mini negative icon button"
                         >
                             <i className="close icon" />
                         </button>
